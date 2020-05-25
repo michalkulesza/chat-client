@@ -18,7 +18,10 @@ const App: React.FC<Props> = () => {
 					exact
 					render={props => <Join {...props} name={name} setName={setName} />}
 				></Route>
-				<Route path="/chat" component={Chat}></Route>
+				<Route
+					path="/chat"
+					render={props => <Chat {...props} name={name} />}
+				></Route>
 			</Router>
 		</div>
 	);
