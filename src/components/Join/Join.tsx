@@ -5,8 +5,14 @@ interface Props {}
 
 const Join: React.FC<Props> = () => {
 	return (
-		<div>
-			<h1>Join</h1>
+		<div className="join">
+			<div className="container">
+				<span>Chatter</span>
+				<form>
+					<input type="text" placeholder="Name" />
+					<button type="submit">Join</button>
+				</form>
+			</div>
 		</div>
 	);
 };

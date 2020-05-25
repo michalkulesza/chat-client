@@ -1,0 +1,68 @@
+@import "../../utils";
+
+.join {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: $text-color;
+
+	.container {
+		height: 300px;
+		width: 400px;
+		background-color: $bg-color3;
+		@extend %border-radius;
+		@extend %shadow;
+		@extend %flexXY;
+		flex-direction: column;
+
+		span {
+			font-size: 3rem;
+			font-weight: bold;
+			margin-bottom: 30px;
+			user-select: none;
+		}
+
+		form {
+			display: flex;
+			flex-direction: column;
+
+			input {
+				font-size: 1rem;
+				background-color: $bg-color2;
+				border: none;
+				color: $text-color;
+				padding: 10px 15px;
+				@extend %border-radius;
+				margin-bottom: 20px;
+
+				&:focus {
+					outline: none;
+				}
+
+				&::placeholder {
+					color: $text-color-disabled;
+				}
+			}
+
+			button {
+				@extend %border-radius;
+				border: none;
+				padding: 10px 40px;
+				outline: none;
+				cursor: pointer;
+				margin: 0 auto;
+				background-color: #fc5130;
+				color: $text-color;
+				font-weight: bold;
+				user-select: none;
+				@extend %transition;
+
+				&:hover {
+					background-color: #d94126;
+				}
+			}
+		}
+	}
+}

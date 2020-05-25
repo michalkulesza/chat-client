@@ -1,0 +1,36 @@
+$bg-color: #1a1e2a;
+$bg-color2: #292f47;
+$bg-color3: #414960;
+
+$text-color: #fff;
+$text-color-disabled: #868a97;
+
+$outline-color: #00bcd4;
+
+%shadow {
+	box-shadow: 0 1px 4px 1px rgba($color: #000000, $alpha: 0.2);
+}
+
+%flexXY {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+%flexX {
+	display: flex;
+	justify-content: center;
+}
+
+%flexY {
+	display: flex;
+	align-items: center;
+}
+
+%border-radius {
+	border-radius: 3px;
+}
+
+%transition {
+	transition: 0.2s all ease;
+}
