@@ -5,8 +5,10 @@ interface Props {}
 
 const Chat: React.FC<Props> = () => {
 	return (
-		<div>
-			<h1>Chat</h1>
+		<div className="chat">
+			<div className="left"></div>
+			<div className="middle"></div>
+			<div className="right"></div>
 		</div>
 	);
 };

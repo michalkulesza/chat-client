@@ -35,7 +35,7 @@
 				color: $text-color;
 				padding: 10px 15px;
 				@extend %border-radius;
-				margin-bottom: 20px;
+				margin-bottom: 5px;
 
 				&:focus {
 					outline: none;
@@ -46,13 +46,25 @@
 				}
 			}
 
+			.errors {
+				opacity: 0;
+				height: 10px;
+				font-size: 0.8rem;
+				font-weight: bold;
+				margin: 0 auto 15px;
+				@extend %transition;
+			}
+
+			a {
+				margin: 0 auto;
+			}
+
 			button {
 				@extend %border-radius;
 				border: none;
 				padding: 10px 40px;
 				outline: none;
 				cursor: pointer;
-				margin: 0 auto;
 				background-color: #fc5130;
 				color: $text-color;
 				font-weight: bold;
