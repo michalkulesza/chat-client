@@ -1,0 +1,55 @@
+@import "../../utils";
+
+.input {
+	height: 80px;
+	width: 100%;
+	@extend %flexXY;
+	padding: 20px;
+	position: relative;
+
+	&::before {
+		content: "";
+		height: 1px;
+		width: calc(100% - 40px);
+		background-color: $text-color-disabled;
+		opacity: 0.5;
+		position: absolute;
+		top: 0;
+	}
+
+	form {
+		@extend %flexXY;
+		height: 100%;
+		width: 100%;
+
+		input {
+			height: 40px;
+			width: calc(100% - 100px);
+			margin-right: 20px;
+			padding: 10px 15px;
+			background-color: $bg-color2;
+			color: $text-color;
+			border: none;
+			outline: none;
+			@extend %border-radius;
+			font-size: 0.8rem;
+			@extend %shadow;
+
+			&::placeholder {
+				color: $text-color-disabled;
+			}
+		}
+
+		button {
+			height: 40px;
+			width: 80px;
+			background-color: $bg-color2;
+			border: none;
+			outline: none;
+			@extend %border-radius;
+			@extend %shadow;
+			color: $text-color;
+			font-size: 0.7rem;
+		}
+	}
+}

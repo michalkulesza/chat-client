@@ -1,0 +1,41 @@
+@import "../../utils";
+
+.message-container {
+	height: auto;
+	min-height: 37px;
+	width: 100%;
+	margin-bottom: 10px;
+
+	.message {
+		height: auto;
+		width: auto;
+		padding: 10px 15px;
+		@extend %border-radius;
+
+		display: inline-block;
+		font-size: 0.8rem;
+		@extend %shadow;
+
+		&.user {
+			float: right;
+			// background-color: #6369d1;
+			background-color: #3891a6;
+			color: $text-color;
+		}
+
+		&.partner {
+			float: left;
+			background-color: $bg-color2;
+			color: $text-color;
+		}
+
+		&.admin,
+		.message-container {
+			@extend %flexX;
+			box-shadow: none;
+			color: $text-color-disabled;
+			font-size: 0.75rem;
+			font-weight: bold;
+		}
+	}
+}

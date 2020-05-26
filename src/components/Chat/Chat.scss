@@ -23,5 +23,8 @@
 		width: 100%;
 		background-color: $bg-color3;
 		grid-column: 6/13;
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
 	}
 }
