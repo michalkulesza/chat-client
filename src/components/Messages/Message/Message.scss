@@ -5,6 +5,39 @@
 	min-height: 37px;
 	width: 100%;
 	margin-bottom: 10px;
+	display: flex;
+
+	&.user {
+		justify-content: flex-end;
+		flex-flow: column;
+	}
+
+	&.partner {
+		justify-content: flex-start;
+		flex-flow: column;
+	}
+
+	&.admin {
+		justify-content: center;
+	}
+
+	.name {
+		display: flex;
+		font-size: 0.8rem;
+		margin-bottom: 5px;
+		color: $text-color-disabled;
+		&.user {
+			justify-content: flex-end;
+		}
+	}
+
+	.wrapper {
+		display: flex;
+
+		&.user {
+			justify-content: flex-end;
+		}
+	}
 
 	.message {
 		height: auto;
@@ -17,14 +50,12 @@
 		@extend %shadow;
 
 		&.user {
-			float: right;
 			// background-color: #6369d1;
 			background-color: #3891a6;
 			color: $text-color;
 		}
 
 		&.partner {
-			float: left;
 			background-color: $bg-color2;
 			color: $text-color;
 		}
@@ -37,5 +68,13 @@
 			font-size: 0.75rem;
 			font-weight: bold;
 		}
+	}
+
+	.time {
+		font-size: 0.75rem;
+		color: $text-color-disabled;
+		padding: 0 10px;
+		display: flex;
+		align-items: flex-end;
 	}
 }

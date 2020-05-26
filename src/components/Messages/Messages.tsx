@@ -29,6 +29,7 @@ const Messages: React.FC<Props> = ({ messages, name }) => {
 							key={i * Math.random()}
 							content={message.text}
 							type={type}
+							name={message.name}
 						></Message>
 					);
 				})}
