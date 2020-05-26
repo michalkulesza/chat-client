@@ -14,8 +14,10 @@ interface Props {
 }
 
 const Chat: React.FC<Props> = ({ name }) => {
-	const [message, setMessage] = useState<object>({});
-	const [messages, setMessages] = useState<object[]>([]);
+	const [message, setMessage] = useState({});
+	const [messages, setMessages] = useState<
+		{ text: string; type: "user" | "partner" | "admin" }[]
+	>([{ text: "", type: "admin" }]);
 
 	useEffect(() => {
 		socket = io(ENDPOINT);
@@ -30,12 +32,14 @@ const Chat: React.FC<Props> = ({ name }) => {
 	}, [name]);
 
 	useEffect(() => {
-		socket.on("message", (message: object) => {
-			setMessages([...messages, message]);
-		});
+		socket.on(
+			"message",
+			(message: { text: string; type: "user" | "partner" | "admin" }) => {
+				let newMessages = [...messages, message];
+				setMessages(newMessages);
+			}
+		);
 	});
-
-	console.log(messages);
 
 	return (
 		<div className="chat">
