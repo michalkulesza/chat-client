@@ -1,10 +1,16 @@
 @import "../../utils";
 
 .messages {
-	height: calc(100% - 80px);
+	height: 100vh;
 	width: 100%;
 	padding: 20px;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
+	overflow: auto;
+
+	.messages-wrapper {
+		height: 100%;
+		display: flex;
+		justify-content: flex-end;
+		flex-direction: column;
+		flex: 1;
+	}
 }
