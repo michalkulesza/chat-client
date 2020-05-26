@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Chat: React.FC<Props> = ({ name }) => {
-	const [message, setMessage] = useState({});
+	const [message, setMessage] = useState<string>("");
 	const [messages, setMessages] = useState<
 		{ text: string; type: "user" | "partner" | "admin" }[]
 	>([{ text: "", type: "admin" }]);
@@ -32,14 +32,33 @@ const Chat: React.FC<Props> = ({ name }) => {
 	}, [name]);
 
 	useEffect(() => {
-		socket.on(
-			"message",
-			(message: { text: string; type: "user" | "partner" | "admin" }) => {
-				let newMessages = [...messages, message];
-				setMessages(newMessages);
+		socket.on("message", (message: { text: string; name: string }) => {
+			let type: "user" | "partner" | "admin";
+			if (message.name === name) {
+				type = "user";
+			} else if (message.name === "admin") {
+				type = "admin";
+			} else {
+				type = "partner";
 			}
-		);
+
+			let newMessage = { text: message.text, type };
+			let newMessages = [...messages, newMessage];
+			setMessages(newMessages);
+		});
 	});
+
+	const sendMessage = (
+		e:
+			| React.FormEvent<HTMLButtonElement>
+			| React.KeyboardEvent<HTMLInputElement>
+	) => {
+		e.preventDefault();
+
+		if (message && message !== "") {
+			socket.emit("sendMessage", message, name, () => setMessage(""));
+		}
+	};
 
 	return (
 		<div className="chat">
@@ -47,7 +66,11 @@ const Chat: React.FC<Props> = ({ name }) => {
 			<div className="middle"></div>
 			<div className="right">
 				<Messages messages={messages} />
-				<Input />
+				<Input
+					message={message}
+					setMessage={setMessage}
+					sendMessage={sendMessage}
+				/>
 			</div>
 		</div>
 	);

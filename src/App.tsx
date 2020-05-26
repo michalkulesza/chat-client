@@ -20,7 +20,13 @@ const App: React.FC<Props> = () => {
 				></Route>
 				<Route
 					path="/chat"
-					render={props => <Chat {...props} name={name} />}
+					render={props => {
+						return name !== "" ? (
+							<Chat {...props} name={name} />
+						) : (
+							<Join {...props} name={name} setName={setName} />
+						);
+					}}
 				></Route>
 			</Router>
 		</div>
