@@ -3,7 +3,7 @@ import "./Message.scss";
 
 interface Props {
 	content: string;
-	type: "user" | "partner" | "admin";
+	type: string;
 }
 
 const Message: React.FC<Props> = ({ content, type }) => {

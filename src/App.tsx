@@ -8,7 +8,7 @@ import Chat from "./components/Chat/Chat";
 interface Props {}
 
 const App: React.FC<Props> = () => {
-	const [name, setName] = useState("");
+	const [name, setName] = useState("test");
 
 	return (
 		<div className="App">
