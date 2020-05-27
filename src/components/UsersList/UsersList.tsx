@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./UsersList.scss";
 
 import Search from "./Search/Search";
@@ -12,21 +12,23 @@ interface Props {
 }
 
 const UsersList: React.FC<Props> = ({ users }) => {
+	const [sortedUsers, setSortedUsers] = useState<
+		{ id?: string; name?: string }[]
+	>([{}]);
+	console.log(sortedUsers);
 	return (
 		<div className="usersList">
-			<Search />
+			<Search users={users} setSortedUsers={setSortedUsers} />
 			<div className="usersContainer">
-				{users
-					? users.map((user, i) => {
-							return (
-								<User
-									key={i * Math.random()}
-									userId={user.id}
-									name={user.name}
-								/>
-							);
-					  })
-					: null}
+				{sortedUsers.length !== 0 ? (
+					sortedUsers.map((user, i) => {
+						return (
+							<User key={i * Math.random()} userId={user.id} name={user.name} />
+						);
+					})
+				) : (
+					<div className="info">No users found.</div>
+				)}
 			</div>
 		</div>
 	);
