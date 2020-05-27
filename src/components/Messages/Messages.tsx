@@ -1,5 +1,6 @@
 import React from "react";
 import "./Messages.scss";
+import moment from "moment";
 import ScrollToBottom from "react-scroll-to-bottom";
 
 import Message from "./Message/Message";

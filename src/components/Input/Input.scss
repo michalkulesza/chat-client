@@ -30,13 +30,17 @@
 			background-color: $bg-color2;
 			color: $text-color;
 			border: none;
-			outline: none;
 			@extend %border-radius;
 			font-size: 0.8rem;
 			@extend %shadow;
+			@extend %transition;
 
 			&::placeholder {
 				color: $text-color-disabled;
+			}
+
+			&:focus {
+				border: 2px solid $bg-color;
 			}
 		}
 
@@ -45,11 +49,20 @@
 			width: 80px;
 			background-color: $bg-color2;
 			border: none;
-			outline: none;
 			@extend %border-radius;
 			@extend %shadow;
 			color: $text-color;
 			font-size: 0.7rem;
+			cursor: pointer;
+			@extend %transition;
+
+			&:hover {
+				background-color: $orange;
+			}
+
+			&:active {
+				background-color: red;
+			}
 		}
 	}
 }

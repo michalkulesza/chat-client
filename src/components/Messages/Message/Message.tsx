@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Message: React.FC<Props> = ({ content, type, name, timestamp }) => {
-	const date = moment(timestamp).format("hh:mm");
+	const time = moment(timestamp).format("hh:mm");
 
 	if (type === "user") {
 		return (
@@ -20,7 +20,7 @@ const Message: React.FC<Props> = ({ content, type, name, timestamp }) => {
 				</div>
 				<div className="wrapper user">
 					<div className="time">
-						<span>{date}</span>
+						<span>{time}</span>
 					</div>
 					<div className="message user">{content}</div>
 				</div>
@@ -45,7 +45,7 @@ const Message: React.FC<Props> = ({ content, type, name, timestamp }) => {
 				<div className="wrapper partner">
 					<div className="message partner">{content}</div>
 					<div className="time">
-						<span>{date}</span>
+						<span>{time}</span>
 					</div>
 				</div>
 			</div>

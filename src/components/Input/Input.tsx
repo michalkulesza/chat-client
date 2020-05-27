@@ -30,7 +30,7 @@ const Input: React.FC<Props> = ({ message, setMessage, sendMessage }) => {
 					onKeyPress={e => handleSumbit(e)}
 				/>
 				<button
-					onSubmit={e => {
+					onClick={e => {
 						e.preventDefault();
 						sendMessage(e);
 					}}
