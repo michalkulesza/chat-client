@@ -5,7 +5,7 @@ import "./Chat.scss";
 import Messages from "../Messages/Messages";
 import Input from "../Input/Input";
 
-const ENDPOINT = "http://192.168.0.106:5000";
+const ENDPOINT = "localhost:5000";
 const room = "Main";
 let socket: SocketIOClient.Socket;
 

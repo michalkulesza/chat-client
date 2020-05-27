@@ -5,7 +5,7 @@ import "./Message.scss";
 interface Props {
 	content: string;
 	type: string;
-	name: string;
+	name: string | null;
 	timestamp: string;
 }
 
