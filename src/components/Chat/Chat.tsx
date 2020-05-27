@@ -4,6 +4,7 @@ import "./Chat.scss";
 
 import Messages from "../Messages/Messages";
 import Input from "../Input/Input";
+import UsersList from "../UsersList/UsersList";
 
 const ENDPOINT = "localhost:5000";
 const room = "Main";
@@ -55,7 +56,9 @@ const Chat: React.FC<Props> = ({ name }) => {
 	return (
 		<div className="chat">
 			<div className="left"></div>
-			<div className="middle"></div>
+			<div className="middle">
+				<UsersList />
+			</div>
 			<div className="right">
 				<Messages messages={messages} name={name} />
 				<Input

@@ -1,0 +1,36 @@
+@import "../../../utils";
+
+.search {
+	position: relative;
+	height: auto;
+	width: 100%;
+
+	.icon {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		top: 0;
+		left: 0;
+		height: 100%;
+		margin-left: 10px;
+
+		svg {
+			fill: $text-color-disabled;
+			transform: scale(0.8);
+			margin-top: -2px;
+		}
+	}
+
+	input {
+		width: 100%;
+		background-color: $bg-color3;
+		border: none;
+		@extend %border-radius;
+		padding: 10px 15px 10px 35px;
+		color: $text-color;
+
+		&::placeholder {
+			color: $text-color-disabled;
+		}
+	}
+}
