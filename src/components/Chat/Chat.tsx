@@ -5,7 +5,7 @@ import "./Chat.scss";
 import Messages from "../Messages/Messages";
 import Input from "../Input/Input";
 
-const ENDPOINT = "localhost:5000";
+const ENDPOINT = "http://192.168.0.106:5000";
 const room = "Main";
 let socket: SocketIOClient.Socket;
 
@@ -15,9 +15,9 @@ interface Props {
 
 const Chat: React.FC<Props> = ({ name }) => {
 	const [message, setMessage] = useState<string>("");
-	const [messages, setMessages] = useState<{ text: string; name: string }[]>([
-		{ text: "", name: "admin" },
-	]);
+	const [messages, setMessages] = useState<
+		{ text: string; name: string; timestamp: string }[]
+	>([{ text: "", name: "admin", timestamp: "" }]);
 
 	useEffect(() => {
 		socket = io(ENDPOINT);
@@ -32,9 +32,12 @@ const Chat: React.FC<Props> = ({ name }) => {
 	}, [name]);
 
 	useEffect(() => {
-		socket.on("message", (message: { text: string; name: string }) => {
-			setMessages(prevMessages => [...prevMessages, message]);
-		});
+		socket.on(
+			"message",
+			(message: { text: string; name: string; timestamp: string }) => {
+				setMessages(prevMessages => [...prevMessages, message]);
+			}
+		);
 	}, []);
 
 	const sendMessage = (

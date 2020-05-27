@@ -5,7 +5,7 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import Message from "./Message/Message";
 
 interface Props {
-	messages: { text: string; name: string }[];
+	messages: { text: string; name: string; timestamp: string }[];
 	name: string;
 }
 
@@ -30,6 +30,7 @@ const Messages: React.FC<Props> = ({ messages, name }) => {
 							content={message.text}
 							type={type}
 							name={message.name}
+							timestamp={message.timestamp}
 						></Message>
 					);
 				})}
