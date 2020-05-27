@@ -1,0 +1,32 @@
+@import "../../../utils";
+
+.user {
+	display: flex;
+	padding: 7px 15px;
+	background-color: $bg-color3;
+	@extend %border-radius;
+	@extend %transition;
+	cursor: pointer;
+	margin-bottom: 5px;
+
+	&:hover {
+		background-color: #4a536d;
+	}
+
+	.status {
+		@extend %flexY;
+
+		.icon {
+			height: 8px;
+			width: 8px;
+			background-color: $green;
+			border-radius: 50%;
+			margin-right: 5px;
+		}
+	}
+	.name {
+		font-size: 0.8rem;
+		color: $text-color;
+		margin-bottom: -2px;
+	}
+}

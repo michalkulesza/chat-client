@@ -19,6 +19,7 @@ const Chat: React.FC<Props> = ({ name }) => {
 	const [messages, setMessages] = useState<
 		{ text: string; name: string; timestamp: string }[]
 	>([{ text: "", name: "admin", timestamp: "" }]);
+	const [users, setUsers] = useState<{ id?: string; name?: string }[]>([{}]);
 
 	useEffect(() => {
 		socket = io(ENDPOINT);
@@ -41,6 +42,12 @@ const Chat: React.FC<Props> = ({ name }) => {
 		);
 	}, []);
 
+	useEffect(() => {
+		socket.on("roomData", (roomData: { users: [{}] }) => {
+			setUsers(roomData.users);
+		});
+	}, []);
+
 	const sendMessage = (
 		e:
 			| React.FormEvent<HTMLButtonElement>
@@ -57,7 +64,7 @@ const Chat: React.FC<Props> = ({ name }) => {
 		<div className="chat">
 			<div className="left"></div>
 			<div className="middle">
-				<UsersList />
+				<UsersList users={users} />
 			</div>
 			<div className="right">
 				<Messages messages={messages} name={name} />

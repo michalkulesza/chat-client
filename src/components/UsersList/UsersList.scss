@@ -4,4 +4,12 @@
 	height: 100%;
 	width: 100%;
 	padding: 20px;
+
+	.usersContainer {
+		height: calc(100% - 39px - 20px);
+		width: calc(100%);
+		margin-top: 20px;
+
+		@extend %border-radius;
+	}
 }
