@@ -57,7 +57,9 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	}, []);
 
 	const sendMessage = (message: string) => {
-		socket.emit("sendMessage", message, name, () => {});
+		if (message.trim() !== "") {
+			socket.emit("sendMessage", message, name, () => {});
+		}
 	};
 
 	return (
