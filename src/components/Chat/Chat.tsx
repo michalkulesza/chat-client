@@ -58,7 +58,7 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 				<UsersList users={users} />
 			</div>
 			<div className="right">
-				<Messages name={name} socket={socket} />
+				<Messages name={name} socket={socket} room={room} />
 				<Input sendMessage={sendMessage} />
 			</div>
 		</div>

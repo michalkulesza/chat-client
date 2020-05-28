@@ -7,22 +7,25 @@ import Message from "./Message/Message";
 interface Props {
 	name: string;
 	socket: SocketIOClient.Socket;
+	room: string;
 }
 
-const Messages: React.FC<Props> = ({ name, socket }) => {
+const Messages: React.FC<Props> = ({ name, socket, room }) => {
 	const [messages, setMessages] = useState<
 		{ text: string; name: string; timestamp: string }[]
 	>([{ text: "", name: "admin", timestamp: "" }]);
 
 	useEffect(() => {
-		socket &&
+		if (socket) {
 			socket.on(
 				"message",
 				(message: { text: string; name: string; timestamp: string }) => {
 					setMessages(prevMessages => [...prevMessages, message]);
 				}
 			);
-	}, [socket]);
+			socket.emit("ready", { name, room });
+		}
+	}, [socket, name, room]);
 
 	return (
 		<div className="messages">
