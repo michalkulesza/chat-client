@@ -19,6 +19,18 @@ interface Props {
 const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	const [users, setUsers] = useState<{ id?: string; name?: string }[]>([{}]);
 
+	const joinUser = (partnersName: string | undefined) => {
+		if (partnersName !== name) {
+			socket.emit("joinUser", { name, partnersName }, (error: any) => {
+				if (error) {
+					console.log(error);
+				}
+			});
+		} else {
+			return null;
+		}
+	};
+
 	useEffect(() => {
 		socket = io(ENDPOINT);
 		let e: string;
@@ -55,7 +67,7 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 		<div className="chat">
 			<div className="left"></div>
 			<div className="middle">
-				<UsersList users={users} />
+				<UsersList users={users} joinUser={joinUser} />
 			</div>
 			<div className="right">
 				<Messages name={name} socket={socket} room={room} />
