@@ -1,15 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Messages.scss";
 import ScrollToBottom from "react-scroll-to-bottom";
 
 import Message from "./Message/Message";
 
 interface Props {
-	messages: { text: string; name: string; timestamp: string }[];
 	name: string;
+	socket: SocketIOClient.Socket;
 }
 
-const Messages: React.FC<Props> = ({ messages, name }) => {
+const Messages: React.FC<Props> = ({ name, socket }) => {
+	const [messages, setMessages] = useState<
+		{ text: string; name: string; timestamp: string }[]
+	>([{ text: "", name: "admin", timestamp: "" }]);
+
+	useEffect(() => {
+		socket &&
+			socket.on(
+				"message",
+				(message: { text: string; name: string; timestamp: string }) => {
+					setMessages(prevMessages => [...prevMessages, message]);
+				}
+			);
+	}, [socket]);
+
 	return (
 		<div className="messages">
 			<ScrollToBottom className="messages-wrapper">

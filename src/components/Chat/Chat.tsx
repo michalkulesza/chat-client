@@ -17,9 +17,6 @@ interface Props {
 }
 
 const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
-	const [messages, setMessages] = useState<
-		{ text: string; name: string; timestamp: string }[]
-	>([{ text: "", name: "admin", timestamp: "" }]);
 	const [users, setUsers] = useState<{ id?: string; name?: string }[]>([{}]);
 
 	useEffect(() => {
@@ -42,22 +39,14 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	}, [name, history, setIsUsernameTaken]);
 
 	useEffect(() => {
-		socket.on(
-			"message",
-			(message: { text: string; name: string; timestamp: string }) => {
-				setMessages(prevMessages => [...prevMessages, message]);
-			}
-		);
-	}, []);
-
-	useEffect(() => {
 		socket.on("roomData", (roomData: { users: [{}] }) => {
 			setUsers(roomData.users);
 		});
 	}, []);
 
 	const sendMessage = (message: string) => {
-		if (message.trim() !== "") {
+		message.trim();
+		if (message !== "" || !message.startsWith(" ")) {
 			socket.emit("sendMessage", message, name, () => {});
 		}
 	};
@@ -69,7 +58,7 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 				<UsersList users={users} />
 			</div>
 			<div className="right">
-				<Messages messages={messages} name={name} />
+				<Messages name={name} socket={socket} />
 				<Input sendMessage={sendMessage} />
 			</div>
 		</div>
