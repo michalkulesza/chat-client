@@ -9,6 +9,7 @@ interface Props {}
 
 const App: React.FC<Props> = () => {
 	const [name, setName] = useState("test");
+	const [isUsernameTaken, setIsUsernameTaken] = useState(false);
 
 	return (
 		<div className="App">
@@ -16,15 +17,31 @@ const App: React.FC<Props> = () => {
 				<Route
 					path="/"
 					exact
-					render={props => <Join {...props} name={name} setName={setName} />}
+					render={props => (
+						<Join
+							{...props}
+							name={name}
+							setName={setName}
+							isUsernameTaken={isUsernameTaken}
+						/>
+					)}
 				></Route>
 				<Route
 					path="/chat"
 					render={props => {
 						return name !== "" ? (
-							<Chat {...props} name={name} />
+							<Chat
+								{...props}
+								name={name}
+								setIsUsernameTaken={setIsUsernameTaken}
+							/>
 						) : (
-							<Join {...props} name={name} setName={setName} />
+							<Join
+								{...props}
+								name={name}
+								setName={setName}
+								isUsernameTaken={isUsernameTaken}
+							/>
 						);
 					}}
 				></Route>

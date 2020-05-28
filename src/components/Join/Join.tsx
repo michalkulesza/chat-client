@@ -1,14 +1,20 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Join.scss";
 
 interface Props {
 	name: string;
 	setName: React.Dispatch<React.SetStateAction<string>>;
+	isUsernameTaken: boolean;
 }
 
-const Join: React.FC<Props> = ({ name, setName }) => {
+const Join: React.FC<Props> = ({ name, setName, isUsernameTaken }) => {
 	const errorDiv = useRef<HTMLDivElement>(null!);
+
+	useEffect(() => {
+		isUsernameTaken && throwError(errorDiv, "⛔ Username is taken.");
+	}, [isUsernameTaken]);
+
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setName(e.target.value);
 	};
@@ -16,15 +22,22 @@ const Join: React.FC<Props> = ({ name, setName }) => {
 	const handleSumbit = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
 		if (name === "" || name.length < 3) {
 			e.preventDefault();
-			errorDiv.current.innerHTML = "⛔ Name is too short.";
-			errorDiv.current.style.opacity = "1";
-
-			setTimeout(() => {
-				errorDiv.current.style.opacity = "0";
-			}, 2000);
+			throwError(errorDiv, "⛔ Name is too short.");
 		} else {
 			return null;
 		}
+	};
+
+	const throwError = (
+		errorDiv: React.MutableRefObject<HTMLDivElement>,
+		errorContent: string
+	) => {
+		errorDiv.current.innerHTML = errorContent;
+		errorDiv.current.style.opacity = "1";
+
+		setTimeout(() => {
+			errorDiv.current.style.opacity = "0";
+		}, 2000);
 	};
 
 	return (

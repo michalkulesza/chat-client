@@ -13,9 +13,10 @@ let socket: SocketIOClient.Socket;
 interface Props {
 	name: string;
 	history: any;
+	setIsUsernameTaken: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Chat: React.FC<Props> = ({ name, history }) => {
+const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	const [message, setMessage] = useState<string>("");
 	const [messages, setMessages] = useState<
 		{ text: string; name: string; timestamp: string }[]
@@ -28,15 +29,18 @@ const Chat: React.FC<Props> = ({ name, history }) => {
 
 		socket.emit("join", { name, room }, (error: any) => {
 			if (error) {
+				setIsUsernameTaken(true);
 				history.push("/");
 			}
 		});
+
+		setIsUsernameTaken(false);
 
 		return () => {
 			socket.emit("disconnect");
 			socket.off(e);
 		};
-	}, [name, history]);
+	}, [name, history, setIsUsernameTaken]);
 
 	useEffect(() => {
 		socket.on(
