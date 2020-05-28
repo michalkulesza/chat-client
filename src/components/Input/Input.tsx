@@ -1,23 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Input.scss";
 
 interface Props {
-	message: string;
-	setMessage: React.Dispatch<React.SetStateAction<string>>;
-	sendMessage: (
-		e:
-			| React.FormEvent<HTMLButtonElement>
-			| React.KeyboardEvent<HTMLInputElement>
-	) => void;
+	sendMessage: (message: string) => void;
 }
 
-const Input: React.FC<Props> = ({ message, setMessage, sendMessage }) => {
+const Input: React.FC<Props> = ({ sendMessage }) => {
+	const [message, setMessage] = useState("");
+
 	const handleSumbit = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === "Enter") {
-			sendMessage(e);
+			e.preventDefault();
+			sendMessage(message);
+			setMessage("");
 		} else {
 			return null;
 		}
+	};
+
+	const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		e.preventDefault();
+		sendMessage(message);
+		setMessage("");
 	};
 
 	return (
@@ -31,8 +35,7 @@ const Input: React.FC<Props> = ({ message, setMessage, sendMessage }) => {
 				/>
 				<button
 					onClick={e => {
-						e.preventDefault();
-						sendMessage(e);
+						handleClick(e);
 					}}
 				>
 					SEND
