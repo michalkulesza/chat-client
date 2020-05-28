@@ -12,9 +12,10 @@ let socket: SocketIOClient.Socket;
 
 interface Props {
 	name: string;
+	history: any;
 }
 
-const Chat: React.FC<Props> = ({ name }) => {
+const Chat: React.FC<Props> = ({ name, history }) => {
 	const [message, setMessage] = useState<string>("");
 	const [messages, setMessages] = useState<
 		{ text: string; name: string; timestamp: string }[]
@@ -25,13 +26,17 @@ const Chat: React.FC<Props> = ({ name }) => {
 		socket = io(ENDPOINT);
 		let e: string;
 
-		socket.emit("join", { name, room }, () => {});
+		socket.emit("join", { name, room }, (error: any) => {
+			if (error) {
+				history.push("/");
+			}
+		});
 
 		return () => {
 			socket.emit("disconnect");
 			socket.off(e);
 		};
-	}, [name]);
+	}, [name, history]);
 
 	useEffect(() => {
 		socket.on(

@@ -15,7 +15,6 @@ const UsersList: React.FC<Props> = ({ users }) => {
 	const [sortedUsers, setSortedUsers] = useState<
 		{ id?: string; name?: string }[]
 	>([{}]);
-	console.log(sortedUsers);
 	return (
 		<div className="usersList">
 			<Search users={users} setSortedUsers={setSortedUsers} />
