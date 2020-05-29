@@ -7,10 +7,30 @@ interface Props {
 	type: string;
 	name: string | null;
 	timestamp: string;
+	timestampHidden: boolean;
 }
 
-const Message: React.FC<Props> = ({ content, type, name, timestamp }) => {
-	const time = moment(timestamp).format("hh:mm");
+const Message: React.FC<Props> = ({
+	content,
+	type,
+	name,
+	timestamp,
+	timestampHidden,
+}) => {
+	const time = moment(timestamp).format("HH:mm");
+
+	const showMessageTime = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		const container = e.currentTarget.parentElement;
+		const time = container?.querySelector(".time");
+		const hidden = time?.classList.contains("hidden");
+
+		if (hidden && time) {
+			time.classList.remove("hidden");
+			setTimeout(() => {
+				time.classList.add("hidden");
+			}, 2000);
+		}
+	};
 
 	if (type === "user") {
 		return (
@@ -19,10 +39,12 @@ const Message: React.FC<Props> = ({ content, type, name, timestamp }) => {
 					<span>{name}</span>
 				</div>
 				<div className="wrapper user">
-					<div className="time">
+					<div className={`time ${timestampHidden ? "hidden" : ""}`}>
 						<span>{time}</span>
 					</div>
-					<div className="message user">{content}</div>
+					<div className="message user" onClick={e => showMessageTime(e)}>
+						{content}
+					</div>
 				</div>
 			</div>
 		);

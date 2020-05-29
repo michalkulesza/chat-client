@@ -71,6 +71,12 @@ const Messages: React.FC<Props> = ({ name, socket, room }) => {
 										: message.name
 								}
 								timestamp={message.timestamp}
+								timestampHidden={
+									i + 1 < messages.length &&
+									messages[i + 1].timestamp === message.timestamp
+										? true
+										: false
+								}
 							></Message>
 						);
 					})}

@@ -44,10 +44,11 @@
 		width: auto;
 		padding: 10px 15px;
 		@extend %border-radius;
-
+		cursor: pointer;
 		display: inline-block;
 		font-size: 0.8rem;
 		@extend %shadow;
+		z-index: 2;
 
 		&.user {
 			// background-color: #6369d1;
@@ -76,5 +77,13 @@
 		padding: 0 10px;
 		display: flex;
 		align-items: flex-end;
+		transform: translateX(0px);
+		opacity: 1;
+		@extend %transition;
+
+		&.hidden {
+			opacity: 0;
+			transform: translateX(40px);
+		}
 	}
 }
