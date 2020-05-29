@@ -18,24 +18,12 @@ interface Props {
 
 const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	const [users, setUsers] = useState<{ id?: string; name?: string }[]>([{}]);
-
-	const joinUser = (partnersName: string | undefined) => {
-		if (partnersName !== name) {
-			socket.emit("joinUser", { name, partnersName }, (error: any) => {
-				if (error) {
-					console.log(error);
-				}
-			});
-		} else {
-			return null;
-		}
-	};
+	const [initRoomMessages, setInitRoomMessages] = useState([]);
 
 	useEffect(() => {
 		socket = io(ENDPOINT);
-		let e: string;
 
-		socket.emit("join", { name, room }, (error: any) => {
+		socket.emit("join", { name, room }, async (error: any) => {
 			if (error) {
 				setIsUsernameTaken(true);
 				history.push("/");
@@ -46,7 +34,7 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 
 		return () => {
 			socket.emit("disconnect");
-			socket.off(e);
+			socket.off("");
 		};
 	}, [name, history, setIsUsernameTaken]);
 
@@ -60,6 +48,18 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 		message.trim();
 		if (message !== "" || !message.startsWith(" ")) {
 			socket.emit("sendMessage", message, name, () => {});
+		}
+	};
+
+	const joinUser = (partnersName: string | undefined) => {
+		if (partnersName !== name) {
+			socket.emit("joinUser", { name, partnersName }, (error: any) => {
+				if (error) {
+					console.log(error);
+				}
+			});
+		} else {
+			return null;
 		}
 	};
 

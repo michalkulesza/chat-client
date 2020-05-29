@@ -6,6 +6,17 @@
 	padding: 20px;
 	overflow: auto;
 
+	.loader-wrapper {
+		height: 100%;
+		width: 100%;
+		@extend %flexXY;
+
+		svg {
+			fill: $text-color;
+			animation-duration: 1.2s;
+		}
+	}
+
 	.messages-wrapper {
 		height: 100%;
 		display: flex;
