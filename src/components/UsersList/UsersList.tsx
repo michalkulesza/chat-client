@@ -19,10 +19,16 @@ const UsersList: React.FC<Props> = ({ users }) => {
 		<div className="usersList">
 			<Search users={users} setSortedUsers={setSortedUsers} />
 			<div className="usersContainer">
+				<User name="Main" type="room"></User>
 				{sortedUsers.length !== 0 ? (
 					sortedUsers.map((user, i) => {
 						return (
-							<User key={i * Math.random()} userId={user.id} name={user.name} />
+							<User
+								key={i * Math.random()}
+								userId={user.id}
+								name={user.name}
+								type="user"
+							/>
 						);
 					})
 				) : (

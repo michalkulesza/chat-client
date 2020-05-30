@@ -18,10 +18,10 @@ interface Props {
 
 const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	const [users, setUsers] = useState<{ id?: string; name?: string }[]>([{}]);
+	const [joinedRooms, setJoinedRooms] = useState<[string]>(["Main"]);
 
 	useEffect(() => {
 		socket = io(ENDPOINT);
-
 		socket.emit("join", { name, room }, async (error: any) => {
 			if (error) {
 				setIsUsernameTaken(true);

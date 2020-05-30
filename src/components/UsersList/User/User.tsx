@@ -4,15 +4,18 @@ import "./User.scss";
 interface Props {
 	userId?: string;
 	name?: string;
+	type: "user" | "room";
 }
 
-const User: React.FC<Props> = ({ userId, name }) => {
+const User: React.FC<Props> = ({ userId, name, type }) => {
 	return (
 		<div className="user" onClick={() => {}}>
 			<div className="status">
-				<div className="icon"></div>
+				{type === "user" ? <div className="icon"></div> : null}
 			</div>
-			<div className="name">{name}</div>
+			<div className="name">
+				{name} {type === "room" && "room"}
+			</div>
 		</div>
 	);
 };
