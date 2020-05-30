@@ -4,12 +4,11 @@ import "./User.scss";
 interface Props {
 	userId?: string;
 	name?: string;
-	joinUser: (partnersName: string | undefined) => void;
 }
 
-const User: React.FC<Props> = ({ userId, name, joinUser }) => {
+const User: React.FC<Props> = ({ userId, name }) => {
 	return (
-		<div className="user" onClick={() => joinUser(name)}>
+		<div className="user" onClick={() => {}}>
 			<div className="status">
 				<div className="icon"></div>
 			</div>

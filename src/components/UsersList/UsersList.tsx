@@ -5,14 +5,13 @@ import Search from "./Search/Search";
 import User from "./User/User";
 
 interface Props {
-	joinUser: (partnersName: string | undefined) => void;
 	users: {
 		idT?: string;
 		name?: string;
 	}[];
 }
 
-const UsersList: React.FC<Props> = ({ users, joinUser }) => {
+const UsersList: React.FC<Props> = ({ users }) => {
 	const [sortedUsers, setSortedUsers] = useState<
 		{ id?: string; name?: string }[]
 	>([{}]);
@@ -23,12 +22,7 @@ const UsersList: React.FC<Props> = ({ users, joinUser }) => {
 				{sortedUsers.length !== 0 ? (
 					sortedUsers.map((user, i) => {
 						return (
-							<User
-								key={i * Math.random()}
-								userId={user.id}
-								name={user.name}
-								joinUser={joinUser}
-							/>
+							<User key={i * Math.random()} userId={user.id} name={user.name} />
 						);
 					})
 				) : (

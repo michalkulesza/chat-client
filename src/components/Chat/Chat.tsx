@@ -50,23 +50,11 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 		}
 	};
 
-	const joinUser = (partnersName: string | undefined) => {
-		if (partnersName !== name) {
-			socket.emit("joinUser", { name, partnersName }, (error: any) => {
-				if (error) {
-					console.log(error);
-				}
-			});
-		} else {
-			return null;
-		}
-	};
-
 	return (
 		<div className="chat">
 			<div className="left"></div>
 			<div className="middle">
-				<UsersList users={users} joinUser={joinUser} />
+				<UsersList users={users} />
 			</div>
 			<div className="right">
 				<Messages name={name} socket={socket} room={room} />
