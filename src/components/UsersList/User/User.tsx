@@ -4,17 +4,35 @@ import "./User.scss";
 interface Props {
 	userId?: string;
 	name?: string;
+	currentUsername?: string;
 	type: "user" | "room";
+	handleChatListClick: (
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
+	) => void;
 }
 
-const User: React.FC<Props> = ({ userId, name, type }) => {
+const User: React.FC<Props> = ({
+	userId,
+	name,
+	type,
+	handleChatListClick,
+	currentUsername,
+}) => {
 	return (
-		<div className="user" onClick={() => {}}>
+		<div
+			className="user"
+			data-user={name}
+			onClick={e => {
+				handleChatListClick(e);
+			}}
+		>
 			<div className="status">
-				{type === "user" ? <div className="icon"></div> : null}
+				{type === "user" && currentUsername !== name ? (
+					<div className="icon"></div>
+				) : null}
 			</div>
 			<div className="name">
-				{name} {type === "room" && "room"}
+				{name} {type === "room" && "room"} {currentUsername === name && "(you)"}
 			</div>
 		</div>
 	);

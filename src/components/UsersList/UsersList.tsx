@@ -9,9 +9,17 @@ interface Props {
 		idT?: string;
 		name?: string;
 	}[];
+	handleChatListClick: (
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
+	) => void;
+	currentUsername: string;
 }
 
-const UsersList: React.FC<Props> = ({ users }) => {
+const UsersList: React.FC<Props> = ({
+	users,
+	handleChatListClick,
+	currentUsername,
+}) => {
 	const [sortedUsers, setSortedUsers] = useState<
 		{ id?: string; name?: string }[]
 	>([{}]);
@@ -19,7 +27,11 @@ const UsersList: React.FC<Props> = ({ users }) => {
 		<div className="usersList">
 			<Search users={users} setSortedUsers={setSortedUsers} />
 			<div className="usersContainer">
-				<User name="Main" type="room"></User>
+				<User
+					name="Main"
+					type="room"
+					handleChatListClick={handleChatListClick}
+				></User>
 				{sortedUsers.length !== 0 ? (
 					sortedUsers.map((user, i) => {
 						return (
@@ -28,6 +40,8 @@ const UsersList: React.FC<Props> = ({ users }) => {
 								userId={user.id}
 								name={user.name}
 								type="user"
+								handleChatListClick={handleChatListClick}
+								currentUsername={currentUsername}
 							/>
 						);
 					})

@@ -8,7 +8,7 @@ import Chat from "./components/Chat/Chat";
 interface Props {}
 
 const App: React.FC<Props> = () => {
-	const [name, setName] = useState(`user`);
+	const [name, setName] = useState(`user${Math.floor(Math.random() * 10000)}`);
 	const [isUsernameTaken, setIsUsernameTaken] = useState(false);
 
 	return (
