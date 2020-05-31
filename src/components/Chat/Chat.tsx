@@ -18,7 +18,6 @@ interface Props {
 
 const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	const [users, setUsers] = useState<{ id?: string; name?: string }[]>([{}]);
-	const [joinedRooms, setJoinedRooms] = useState<string[]>(["Main"]);
 	const [currentRoom, setCurrentRoom] = useState<string>("Main");
 
 	//ALL GOOD
@@ -30,8 +29,8 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 				history.push("/");
 			}
 		});
-
 		setIsUsernameTaken(false);
+		socket.emit("ready", { name, initRoom });
 
 		return () => {
 			socket.emit("disconnect");
@@ -50,12 +49,22 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	const handleChatListClick = (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
-		const partnersName = e.currentTarget.getAttribute("data-user");
+		let partnersName = e.currentTarget.getAttribute("data-user");
 		let roomName = [name, partnersName].sort().join().replace(",", "");
-		if (partnersName !== name) {
-			joinedRooms.includes(roomName)
-				? socket.emit("joinChat", roomName)
-				: socket.emit("joinNewChat", roomName);
+
+		if (partnersName === "Main" && currentRoom !== partnersName) {
+			setCurrentRoom(partnersName);
+			socket.emit("leaveChat");
+			socket.emit("joinChat", { roomName: partnersName });
+		}
+		if (
+			partnersName !== name &&
+			partnersName !== "Main" &&
+			currentRoom !== roomName
+		) {
+			socket.emit("leaveChat");
+			setCurrentRoom(roomName);
+			socket.emit("joinChat", { roomName, partnersName });
 		}
 	};
 
@@ -63,7 +72,7 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	const sendMessage = (message: string) => {
 		message.trim();
 		if (message !== "" || !message.startsWith(" ")) {
-			socket.emit("sendMessage", message, name, () => {});
+			socket.emit("sendMessage", message, name, currentRoom, () => {});
 		}
 	};
 
@@ -78,7 +87,7 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 				/>
 			</div>
 			<div className="right">
-				<Messages name={name} socket={socket} room={currentRoom} />
+				<Messages name={name} socket={socket} currentRoom={currentRoom} />
 				<Input sendMessage={sendMessage} />
 			</div>
 		</div>
