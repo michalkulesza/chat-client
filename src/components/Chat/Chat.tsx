@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import io, { Socket } from "socket.io-client";
+import io from "socket.io-client";
 import "./Chat.scss";
 
 import Messages from "../Messages/Messages";
@@ -7,7 +7,6 @@ import Input from "../Input/Input";
 import UsersList from "../UsersList/UsersList";
 
 const ENDPOINT = "localhost:5000";
-const initRoom = "Main";
 let socket: SocketIOClient.Socket;
 
 interface Props {
@@ -19,8 +18,8 @@ interface Props {
 const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	const [users, setUsers] = useState<{ id?: string; name?: string }[]>([{}]);
 	const [currentRoom, setCurrentRoom] = useState<string>("Main");
+	const initRoom = "Main";
 
-	//ALL GOOD
 	useEffect(() => {
 		socket = io(ENDPOINT);
 		socket.emit("initJoin", { name, initRoom }, async (error: any) => {
@@ -29,8 +28,9 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 				history.push("/");
 			}
 		});
+
 		setIsUsernameTaken(false);
-		socket.emit("ready", { name, initRoom });
+		socket.emit("readyForInitData", initRoom);
 
 		return () => {
 			socket.emit("disconnect");
@@ -38,14 +38,12 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 		};
 	}, [name, history, setIsUsernameTaken]);
 
-	//ALL GOOD
 	useEffect(() => {
-		socket.on("roomData", (roomData: { users: [{}] }) => {
+		socket.on("roomData", (roomData: { users: object[] }) => {
 			setUsers(roomData.users);
 		});
 	}, []);
 
-	//JOIN SPECIFIC CHAT
 	const handleChatListClick = (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
@@ -68,7 +66,6 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 		}
 	};
 
-	//ALL GOOD
 	const sendMessage = (message: string) => {
 		message.trim();
 		if (message !== "" || !message.startsWith(" ")) {
@@ -87,7 +84,7 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 				/>
 			</div>
 			<div className="right">
-				<Messages name={name} socket={socket} currentRoom={currentRoom} />
+				<Messages name={name} socket={socket} />
 				<Input sendMessage={sendMessage} />
 			</div>
 		</div>
