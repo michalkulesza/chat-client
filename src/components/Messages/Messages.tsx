@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Messages.scss";
 import ScrollToBottom from "react-scroll-to-bottom";
 import IosRefresh from "react-ionicons/lib/IosRefresh";
+import uuid from "react-uuid";
 
 import Message from "./Message/Message";
 
@@ -81,7 +82,7 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 
 							return (
 								<Message
-									key={i * Math.random()}
+									key={uuid()}
 									content={message.text}
 									type={type}
 									name={

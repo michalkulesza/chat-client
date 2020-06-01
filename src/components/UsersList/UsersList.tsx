@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import uuid from "react-uuid";
 import "./UsersList.scss";
 
 import Search from "./Search/Search";
@@ -37,7 +38,7 @@ const UsersList: React.FC<Props> = ({
 					sortedUsers.map((user, i) => {
 						return (
 							<User
-								key={i * Math.random()}
+								key={uuid()}
 								name={user.name}
 								type="user"
 								handleChatListClick={handleChatListClick}
