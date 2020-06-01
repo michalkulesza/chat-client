@@ -77,14 +77,14 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 
 	return (
 		<div className="chat">
-			<div className="left">
+			<div className={`left ${menuHidden ? "menu-toggle" : ""}`}>
 				<UsersList
 					users={users}
 					handleChatListClick={handleChatListClick}
 					currentUsername={name}
 				/>
 			</div>
-			<div className={`right ${menuHidden ? "menu-hidden" : ""}`}>
+			<div className={`right ${menuHidden ? "menu-toggle" : ""}`}>
 				<Header menuHidden={menuHidden} setMenuHidden={setMenuHidden} />
 				<Messages name={name} socket={socket} />
 				<Input sendMessage={sendMessage} />

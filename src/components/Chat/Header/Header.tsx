@@ -1,8 +1,6 @@
 import React from "react";
 import "./Header.scss";
 
-import MdMenu from "react-ionicons/lib/MdMenu";
-
 interface Props {
 	menuHidden: boolean;
 	setMenuHidden: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,8 +9,13 @@ interface Props {
 const Header: React.FC<Props> = ({ menuHidden, setMenuHidden }) => {
 	return (
 		<div className="header">
-			<div className="menu-icon" onClick={() => setMenuHidden(!menuHidden)}>
-				<MdMenu />
+			<div
+				className="menu-icon-container"
+				onClick={() => setMenuHidden(!menuHidden)}
+			>
+				<div className={`menu-icon ${!menuHidden ? "menu-toggle" : ""}`}>
+					<span></span>
+				</div>
 			</div>
 			<div className="chat-title"></div>
 		</div>

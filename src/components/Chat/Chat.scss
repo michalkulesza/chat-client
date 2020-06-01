@@ -4,41 +4,68 @@
 	height: 100%;
 	width: 100%;
 	display: flex;
-	position: relative;
 	overflow: hidden;
 
 	.left {
 		height: 100%;
 		width: 400px;
 		background-color: $bg-color2;
-		position: absolute;
 		@extend %transition;
+		margin-left: 0;
+
+		&.menu-toggle {
+			margin-left: -400px;
+		}
 	}
 
 	.right {
 		height: 100vh;
 		width: 100%;
-		transform: translateX(400px);
 		background-color: $bg-color3;
 		display: flex;
 		justify-content: space-between;
 		flex-direction: column;
 		z-index: 2;
 		@extend %transition;
+	}
+}
 
-		&.menu-hidden {
+@media (max-width: 800px) {
+	.chat {
+		position: relative;
+		.left {
+			width: 300px;
+			position: absolute;
+			&.menu-toggle {
+				margin-left: 0px;
+			}
+		}
+
+		.right {
 			transform: translateX(0px);
+			&.menu-toggle {
+				transform: translateX(300px);
+			}
 		}
 	}
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 320px) {
 	.chat {
-		.right {
-			transform: translateX(300px);
-		}
+		position: relative;
 		.left {
-			width: 300px;
+			width: 250px;
+			position: absolute;
+			&.menu-toggle {
+				margin-left: 0px;
+			}
+		}
+
+		.right {
+			transform: translateX(250px);
+			&.menu-toggle {
+				transform: translateX(0px);
+			}
 		}
 	}
 }

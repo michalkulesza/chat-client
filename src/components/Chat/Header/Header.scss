@@ -6,11 +6,67 @@
 	padding: 20px 20px 0 20px;
 	display: flex;
 
-	.menu-icon {
+	.menu-icon-container {
 		width: auto;
 		height: 100%;
 		@extend %flexXY;
 		cursor: pointer;
+
+		.menu-icon {
+			height: 18px;
+			width: 18px;
+
+			span {
+				height: 2px;
+				width: 100%;
+				background-color: $text-color-disabled;
+				display: block;
+				margin-top: 50%;
+				transform: translateY(calc(-50% - 5px));
+
+				&::before {
+					display: block;
+					content: "";
+					height: 2px;
+					width: 100%;
+					background-color: $text-color-disabled;
+					transform: translateY(5px);
+				}
+
+				&::after {
+					display: block;
+					content: "";
+					height: 2px;
+					width: 100%;
+					background-color: $text-color-disabled;
+					transform: translateY(8px);
+				}
+			}
+
+			&:hover {
+				span,
+				span::before,
+				span::after {
+					background-color: $text-color;
+					@extend %transition;
+				}
+			}
+
+			&.menu-toggle {
+				span {
+					transform: translate3d(0, 0px, 0) rotate(-45deg);
+				}
+
+				span::before {
+					transform: translateX(0px) rotate(45deg);
+					opacity: 0;
+				}
+
+				span::after {
+					transform: translate3d(0px, -2px, 0) rotate(90deg);
+				}
+			}
+		}
 
 		&:hover {
 			svg {
