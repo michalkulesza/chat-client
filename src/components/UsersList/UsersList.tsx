@@ -35,7 +35,7 @@ const UsersList: React.FC<Props> = ({
 					handleChatListClick={handleChatListClick}
 				></User>
 				{sortedUsers.length !== 0 ? (
-					sortedUsers.map((user, i) => {
+					sortedUsers.map(user => {
 						return (
 							<User
 								key={uuid()}
@@ -49,6 +49,7 @@ const UsersList: React.FC<Props> = ({
 				) : (
 					<div className="info">No users found.</div>
 				)}
+				<div className="info">Click on a user to start private chat.</div>
 			</div>
 		</div>
 	);

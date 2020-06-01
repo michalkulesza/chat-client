@@ -58,6 +58,7 @@
 				font-size: 0.8rem;
 				@extend %shadow;
 				z-index: 2;
+				word-break: break-all;
 
 				&.user {
 					// background-color: #6369d1;

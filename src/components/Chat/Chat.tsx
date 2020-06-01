@@ -18,9 +18,9 @@ interface Props {
 
 const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	const [users, setUsers] = useState<{ id?: string; name?: string }[]>([{}]);
-	const [currentRoom, setCurrentRoom] = useState<string>("Main");
+	const [currentRoom, setCurrentRoom] = useState<string>("main");
 	const [menuHidden, setMenuHidden] = useState<boolean>(false);
-	const initRoom = "Main";
+	const initRoom = "main";
 
 	useEffect(() => {
 		socket = io(ENDPOINT);
