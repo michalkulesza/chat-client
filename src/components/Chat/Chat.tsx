@@ -5,6 +5,7 @@ import "./Chat.scss";
 import Messages from "../Messages/Messages";
 import Input from "../Input/Input";
 import UsersList from "../UsersList/UsersList";
+import Header from "./Header/Header";
 
 const ENDPOINT = "localhost:5000";
 let socket: SocketIOClient.Socket;
@@ -18,6 +19,7 @@ interface Props {
 const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	const [users, setUsers] = useState<{ id?: string; name?: string }[]>([{}]);
 	const [currentRoom, setCurrentRoom] = useState<string>("Main");
+	const [menuHidden, setMenuHidden] = useState<boolean>(false);
 	const initRoom = "Main";
 
 	useEffect(() => {
@@ -75,15 +77,15 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 
 	return (
 		<div className="chat">
-			<div className="left"></div>
-			<div className="middle">
+			<div className="left">
 				<UsersList
 					users={users}
 					handleChatListClick={handleChatListClick}
 					currentUsername={name}
 				/>
 			</div>
-			<div className="right">
+			<div className={`right ${menuHidden ? "menu-hidden" : ""}`}>
+				<Header menuHidden={menuHidden} setMenuHidden={setMenuHidden} />
 				<Messages name={name} socket={socket} />
 				<Input sendMessage={sendMessage} />
 			</div>

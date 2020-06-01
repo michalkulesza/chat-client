@@ -1,0 +1,26 @@
+@import "../../../utils";
+
+.header {
+	height: 60px;
+	width: 100%;
+	padding: 20px 20px 0 20px;
+	display: flex;
+
+	.menu-icon {
+		width: auto;
+		height: 100%;
+		@extend %flexXY;
+		cursor: pointer;
+
+		&:hover {
+			svg {
+				fill: $text-color;
+			}
+		}
+
+		svg {
+			@extend %transition;
+			fill: $text-color-disabled;
+		}
+	}
+}
