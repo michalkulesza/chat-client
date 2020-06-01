@@ -52,6 +52,8 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 		}
 	}, [socket]);
 
+	console.log(messages);
+
 	return (
 		<div className="messages">
 			{componentLoading ? (
@@ -72,7 +74,7 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 							if (message.name === "admin") {
 								type = "admin";
 							} else if (message.name === name) {
-								type = "user";
+								type = "admin";
 							} else {
 								type = "partner";
 							}

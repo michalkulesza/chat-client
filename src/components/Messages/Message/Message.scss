@@ -29,6 +29,9 @@
 		&.user {
 			justify-content: flex-end;
 		}
+		&.admin {
+			visibility: hidden;
+		}
 	}
 
 	.wrapper {
@@ -37,53 +40,65 @@
 		&.user {
 			justify-content: flex-end;
 		}
-	}
 
-	.message {
-		height: auto;
-		width: auto;
-		padding: 10px 15px;
-		@extend %border-radius;
-		cursor: pointer;
-		display: inline-block;
-		font-size: 0.8rem;
-		@extend %shadow;
-		z-index: 2;
+		.container {
+			display: flex;
 
-		&.user {
-			// background-color: #6369d1;
-			background-color: #3891a6;
-			color: $text-color;
-		}
+			&.partner {
+				flex-direction: row-reverse;
+			}
 
-		&.partner {
-			background-color: $bg-color2;
-			color: $text-color;
-		}
+			.message {
+				height: auto;
+				width: auto;
+				padding: 10px 15px;
+				@extend %border-radius;
+				cursor: pointer;
+				display: inline-block;
+				font-size: 0.8rem;
+				@extend %shadow;
+				z-index: 2;
 
-		&.admin,
-		.message-container {
-			@extend %flexX;
-			box-shadow: none;
-			color: $text-color-disabled;
-			font-size: 0.75rem;
-			font-weight: bold;
-		}
-	}
+				&.user {
+					// background-color: #6369d1;
+					background-color: #3891a6;
+					color: $text-color;
+				}
 
-	.time {
-		font-size: 0.75rem;
-		color: $text-color-disabled;
-		padding: 0 10px;
-		display: flex;
-		align-items: flex-end;
-		transform: translateX(0px);
-		opacity: 1;
-		@extend %transition;
+				&.partner {
+					background-color: $bg-color2;
+					color: $text-color;
+				}
 
-		&.hidden {
-			opacity: 0;
-			transform: translateX(40px);
+				&.admin,
+				.message-container {
+					@extend %flexX;
+					box-shadow: none;
+					color: $text-color-disabled;
+					font-size: 0.75rem;
+					font-weight: bold;
+				}
+			}
+
+			.time {
+				font-size: 0.75rem;
+				color: $text-color-disabled;
+				padding: 0 10px;
+				display: flex;
+				align-items: flex-end;
+				transform: translateX(0px);
+				opacity: 1;
+				@extend %transition;
+
+				&.hidden {
+					opacity: 0;
+					transform: translateX(40px);
+				}
+
+				&.admin {
+					visibility: hidden;
+				}
+			}
 		}
 	}
 }

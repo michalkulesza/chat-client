@@ -2,7 +2,6 @@ import React from "react";
 import "./User.scss";
 
 interface Props {
-	userId?: string;
 	name?: string;
 	currentUsername?: string;
 	type: "user" | "room";
@@ -12,7 +11,6 @@ interface Props {
 }
 
 const User: React.FC<Props> = ({
-	userId,
 	name,
 	type,
 	handleChatListClick,
@@ -27,12 +25,15 @@ const User: React.FC<Props> = ({
 			}}
 		>
 			<div className="status">
-				{type === "user" && currentUsername !== name ? (
-					<div className="icon"></div>
-				) : null}
+				{type === "room" || currentUsername === name ? (
+					<div className="user-icon"></div>
+				) : (
+					<div className="status-icon"></div>
+				)}
 			</div>
 			<div className="name">
-				{name} {type === "room" && "room"} {currentUsername === name && "(you)"}
+				{currentUsername === name ? <span>You</span> : name}{" "}
+				{type === "room" && "room"}
 			</div>
 		</div>
 	);

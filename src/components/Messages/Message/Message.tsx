@@ -32,47 +32,23 @@ const Message: React.FC<Props> = ({
 		}
 	};
 
-	if (type === "user") {
-		return (
-			<div className="message-container user">
-				<div className="name user">
-					<span>{name}</span>
-				</div>
-				<div className="wrapper user">
-					<div className={`time ${timestampHidden ? "hidden" : ""}`}>
+	return (
+		<div className={`message-container ${type}`}>
+			<div className={`name ${type}`}>
+				<span>{name}</span>
+			</div>
+			<div className={`wrapper ${type}`}>
+				<div className={`container ${type}`}>
+					<div className={`time ${timestampHidden ? "hidden" : ""} ${type}`}>
 						<span>{time}</span>
 					</div>
-					<div className="message user" onClick={e => showMessageTime(e)}>
+					<div className={`message ${type}`} onClick={e => showMessageTime(e)}>
 						{content}
 					</div>
 				</div>
 			</div>
-		);
-	} else if (type === "admin") {
-		if (content !== "") {
-			return (
-				<div className="message-container admin">
-					<div className="message admin">{content}</div>
-				</div>
-			);
-		} else {
-			return null;
-		}
-	} else {
-		return (
-			<div className="message-container partner">
-				<div className="name partner">
-					<span>{name}</span>
-				</div>
-				<div className="wrapper partner">
-					<div className="message partner">{content}</div>
-					<div className="time">
-						<span>{time}</span>
-					</div>
-				</div>
-			</div>
-		);
-	}
+		</div>
+	);
 };
 
 export default Message;

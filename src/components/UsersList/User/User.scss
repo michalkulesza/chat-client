@@ -16,11 +16,17 @@
 	.status {
 		@extend %flexY;
 
-		.icon {
+		.status-icon {
 			height: 8px;
 			width: 8px;
 			background-color: $green;
 			border-radius: 50%;
+			margin-right: 5px;
+		}
+
+		.user-icon {
+			height: 8px;
+			width: 8px;
 			margin-right: 5px;
 		}
 	}
@@ -28,5 +34,9 @@
 		font-size: 0.8rem;
 		color: $text-color;
 		margin-bottom: -2px;
+
+		span {
+			color: $text-color-disabled;
+		}
 	}
 }

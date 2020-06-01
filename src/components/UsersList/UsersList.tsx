@@ -23,6 +23,7 @@ const UsersList: React.FC<Props> = ({
 	const [sortedUsers, setSortedUsers] = useState<
 		{ id?: string; name?: string }[]
 	>([{}]);
+
 	return (
 		<div className="usersList">
 			<Search users={users} setSortedUsers={setSortedUsers} />
@@ -37,7 +38,6 @@ const UsersList: React.FC<Props> = ({
 						return (
 							<User
 								key={i * Math.random()}
-								userId={user.id}
 								name={user.name}
 								type="user"
 								handleChatListClick={handleChatListClick}
