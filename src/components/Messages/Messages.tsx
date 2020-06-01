@@ -32,6 +32,7 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 						.then(res => res.json())
 						.then(data => {
 							setMessages(data.messages);
+							socket.emit("ready", name, roomName);
 							setComponentLoading(false);
 						})
 						.catch(err => console.error(err));
@@ -51,9 +52,7 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 				}
 			);
 		}
-	}, [socket]);
-
-	console.log(messages);
+	}, [socket, name]);
 
 	return (
 		<div className="messages">
@@ -75,7 +74,7 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 							if (message.name === "admin") {
 								type = "admin";
 							} else if (message.name === name) {
-								type = "admin";
+								type = "user";
 							} else {
 								type = "partner";
 							}

@@ -30,7 +30,7 @@
 			justify-content: flex-end;
 		}
 		&.admin {
-			visibility: hidden;
+			display: none;
 		}
 	}
 
@@ -96,7 +96,7 @@
 				}
 
 				&.admin {
-					visibility: hidden;
+					display: none;
 				}
 			}
 		}
