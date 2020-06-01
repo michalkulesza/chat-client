@@ -69,9 +69,9 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 	};
 
 	const sendMessage = (message: string) => {
-		message.trim();
-		if (message !== "" || !message.startsWith(" ")) {
-			socket.emit("sendMessage", message, name, currentRoom, () => {});
+		const trimmedMessage = message.trim();
+		if (trimmedMessage !== "") {
+			socket.emit("sendMessage", trimmedMessage, name, currentRoom, () => {});
 		}
 	};
 
