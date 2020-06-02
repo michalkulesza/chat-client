@@ -13,7 +13,7 @@ const App: React.FC<Props> = () => {
 
 	return (
 		<div className="App">
-			<Router>
+			<Router basename="/chatter">
 				<Route
 					path="/"
 					exact
@@ -28,6 +28,7 @@ const App: React.FC<Props> = () => {
 				></Route>
 				<Route
 					path="/chat"
+					exact
 					render={props => {
 						return name !== "" ? (
 							<Chat

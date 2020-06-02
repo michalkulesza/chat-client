@@ -22,7 +22,7 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 			socket.on("getData", (roomName: string) => {
 				setComponentLoading(true);
 				const fetchData = async () => {
-					await fetch("http://localhost:5000/api/getmessages", {
+					await fetch("https://chatter-xcxz.herokuapp.com/api/getmessages", {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json;charset=utf-8",

@@ -7,10 +7,10 @@
 	justify-content: center;
 	align-items: center;
 	color: $text-color;
+	flex-direction: column;
 
 	.container {
-		height: 300px;
-		width: 400px;
+		padding: 100px 100px;
 		background-color: $bg-color3;
 		@extend %border-radius;
 		@extend %shadow;
@@ -75,6 +75,35 @@
 					background-color: #d94126;
 				}
 			}
+		}
+	}
+
+	> span {
+		font-size: 0.9rem;
+		max-width: 35%;
+		text-align: center;
+		margin-top: 20px;
+		color: $text-color-disabled;
+	}
+}
+
+@media (max-width: 450px) {
+	.join {
+		.container {
+			padding: 60px 60px;
+		}
+
+		> span {
+			max-width: 80%;
+			margin-top: 20px;
+		}
+	}
+}
+
+@media (max-width: 360px) {
+	.join {
+		.container {
+			padding: 60px 40px;
 		}
 	}
 }

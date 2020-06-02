@@ -58,6 +58,10 @@ const Join: React.FC<Props> = ({ name, setName, isUsernameTaken }) => {
 					</Link>
 				</form>
 			</div>
+			<span>
+				Initial loading times may take a little longer due to heroku
+				limitations.
+			</span>
 		</div>
 	);
 };

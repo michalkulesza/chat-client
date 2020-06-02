@@ -7,7 +7,7 @@ import Input from "../Input/Input";
 import UsersList from "../UsersList/UsersList";
 import Header from "./Header/Header";
 
-const ENDPOINT = "localhost:5000";
+const ENDPOINT = "https://chatter-xcxz.herokuapp.com/";
 let socket: SocketIOClient.Socket;
 
 interface Props {
@@ -53,7 +53,7 @@ const Chat: React.FC<Props> = ({ name, history, setIsUsernameTaken }) => {
 		let roomName = [name, partnersName].sort().join().replace(",", "");
 
 		if (partnersName === "Main" && currentRoom !== partnersName) {
-			setCurrentRoom(partnersName);
+			setCurrentRoom("main");
 			socket.emit("leaveChat");
 			socket.emit("joinChat", { roomName: partnersName });
 		}
