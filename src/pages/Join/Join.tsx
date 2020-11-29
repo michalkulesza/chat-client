@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import socket from "../../socketio";
 import { Button } from "../../components";
@@ -15,10 +15,47 @@ const Join: React.FC<Props> = ({ setUser }) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [passwordRequired, setPasswordRequired] = useState(false);
-	const [userRegistered, setUserRegistered] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [loadingState, setLoadingState] = useState(false);
 	const [checkbox, setCheckbox] = useState(false);
+
+	useEffect(() => {
+		socket.on("authSuccessfull", ({ registered }: { registered: boolean }) => {
+			setLoadingState(false);
+			setUser({
+				username,
+				registered,
+			});
+			history.push("/chat");
+		});
+
+		socket.on("authUserExists", () => {
+			setLoadingState(false);
+			setPasswordRequired(true);
+			throwError("⛔ Username taken");
+			setCheckbox(false);
+		});
+
+		socket.on("authIncorrectPassword", () => {
+			setLoadingState(false);
+			setPassword("");
+			throwError("⛔ Password incorrect");
+		});
+
+		socket.on("error", ({ error }: { error: string }) => {
+			setLoadingState(false);
+			setUsername("");
+			setPassword("");
+			throwError(error);
+		});
+
+		return () => {
+			socket.off("authSuccessfull");
+			socket.off("authUserExists");
+			socket.off("authIncorrectPassword");
+			socket.off("error");
+		};
+	}, [history, setUser, username]);
 
 	const throwError = (error: string) => {
 		setError(error);
@@ -33,7 +70,7 @@ const Join: React.FC<Props> = ({ setUser }) => {
 		setPassword(e.target.value);
 	};
 
-	const validateName = (name: string) => {
+	const validateUsername = (name: string) => {
 		return name && name.length >= 3;
 	};
 
@@ -42,7 +79,7 @@ const Join: React.FC<Props> = ({ setUser }) => {
 	};
 
 	const handleJoin = () => {
-		if (!validateName(username)) {
+		if (!validateUsername(username)) {
 			throwError("⛔ Name is too short.");
 			return;
 		}
@@ -69,39 +106,6 @@ const Join: React.FC<Props> = ({ setUser }) => {
 			password,
 		});
 	};
-
-	socket.on("userAuthenticated", () => {
-		setUserRegistered(true);
-	});
-
-	socket.on("authSuccessfull", () => {
-		setLoadingState(false);
-		setUser({
-			username,
-			registered: userRegistered,
-		});
-		history.push("/chat");
-	});
-
-	socket.on("authUserExists", () => {
-		setLoadingState(false);
-		setPasswordRequired(true);
-		throwError("⛔ Username taken");
-		setCheckbox(false);
-	});
-
-	socket.on("authIncorrectPassword", () => {
-		setLoadingState(false);
-		setPassword("");
-		throwError("⛔ Password incorrect");
-	});
-
-	socket.on("error", ({ error }: { error: string }) => {
-		setLoadingState(false);
-		setUsername("");
-		setPassword("");
-		throwError(error);
-	});
 
 	return (
 		<div className="join">

@@ -4,27 +4,16 @@ import "./Search.scss";
 import MdSearch from "react-ionicons/lib/MdSearch";
 
 interface Props {
-	users: {
-		id?: string;
-		name?: string;
-	}[];
-	setSortedUsers: React.Dispatch<
-		React.SetStateAction<
-			{
-				id?: string | undefined;
-				name?: string | undefined;
-			}[]
-		>
-	>;
+	users: { id: string; username: string }[];
+	setSortedUsers: React.Dispatch<React.SetStateAction<{ id: string; username: string }[]>>;
 }
 
 const Search: React.FC<Props> = ({ users, setSortedUsers }) => {
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-		let sortedUsers = [...users].filter(user => {
-			return user.name?.startsWith(e.target.value);
-		});
-
-		setSortedUsers(sortedUsers);
+		// let sortedUsers = [...users].filter(user => {
+		// 	return user.name?.startsWith(e.target.value);
+		// });
+		// setSortedUsers(sortedUsers);
 	};
 
 	useEffect(() => {
