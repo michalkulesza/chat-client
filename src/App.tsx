@@ -6,14 +6,18 @@ import { Join } from "./pages";
 
 interface Props {}
 
+export type User = {
+	username: string;
+	registered: boolean;
+};
+
 const App: React.FC<Props> = () => {
-	const [name, setName] = useState<null | string>(null);
-	const [isUsernameTaken] = useState(false);
+	const [user, setUser] = useState<User | null>(null);
 
 	return (
 		<div className="App">
 			<Route path="/" exact>
-				<Join name={name} setName={setName} isUsernameTaken={isUsernameTaken} />
+				<Join setUser={setUser} />
 			</Route>
 			{/* <Route
 				path="/chat"

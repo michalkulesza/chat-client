@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { Button } from "../../components";
+import React, { useState } from "react";
 import socket from "../../socketio";
+import { Button } from "../../components";
+import { User } from "../../App";
 
 import "./Join.scss";
 
 interface Props {
-	name: string | null;
-	setName: React.Dispatch<React.SetStateAction<string | null>>;
-	isUsernameTaken: boolean;
+	setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-const Join: React.FC<Props> = ({ name, setName, isUsernameTaken }) => {
+const Join: React.FC<Props> = ({ setUser }) => {
+	const [username, setUsername] = useState("");
 	const [error, setError] = useState<string | null>(null);
 	const [loadingState, setLoadingState] = useState(false);
 	const [checkbox, setCheckbox] = useState(false);
@@ -20,12 +20,8 @@ const Join: React.FC<Props> = ({ name, setName, isUsernameTaken }) => {
 		setTimeout(() => setError(null), 3000);
 	};
 
-	useEffect(() => {
-		isUsernameTaken && throwError("⛔ Username is taken.");
-	}, [isUsernameTaken]);
-
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setName(e.target.value);
+		setUsername(e.target.value);
 	};
 
 	const validateName = (name: string | null) => {
@@ -33,29 +29,38 @@ const Join: React.FC<Props> = ({ name, setName, isUsernameTaken }) => {
 	};
 
 	const handleJoin = () => {
-		if (!validateName(name)) {
+		if (!validateName(username)) {
 			throwError("⛔ Name is too short.");
 		} else {
 			setLoadingState(true);
 			socket.emit("join", {
-				name,
-				password: 
-			})
+				username,
+			});
 		}
 	};
+
+	socket.on("authSuccessfull", () => {
+		setLoadingState(false);
+		setUser({
+			username,
+			registered: checkbox,
+		});
+	});
+
+	socket.on("authUsernameTaken", () => {
+		setLoadingState(false);
+	});
+
+	socket.on("authIncorrectPassword", () => {
+		setLoadingState(false);
+	});
 
 	return (
 		<div className="join">
 			<div className="container">
 				<span>Chatter</span>
 				<div className="form">
-					<input
-						type="text"
-						placeholder="Name"
-						value={name ? name : ""}
-						onChange={e => handleInputChange(e)}
-						maxLength={30}
-					/>
+					<input type="text" placeholder="Name" value={username} onChange={e => handleInputChange(e)} maxLength={30} />
 					<div className="errors">{error}</div>
 					{!loadingState ? (
 						<div className="buttons">
