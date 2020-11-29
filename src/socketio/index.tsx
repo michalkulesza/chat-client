@@ -6,6 +6,6 @@ const LOCAL = "http://localhost:5001";
 
 const ENDPOINT = process.env.PRODUCTION ? REMOTE : LOCAL;
 const socket = io(ENDPOINT);
-encrypt("secret")(socket);
+encrypt("someStrongSecret")(socket);
 
 export default socket;

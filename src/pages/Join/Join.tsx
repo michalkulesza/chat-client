@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import socket from "../../socketio";
 import { Button } from "../../components";
 import { User } from "../../App";
@@ -10,7 +11,11 @@ interface Props {
 }
 
 const Join: React.FC<Props> = ({ setUser }) => {
+	const history = useHistory();
 	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [passwordRequired, setPasswordRequired] = useState(false);
+	const [userRegistered, setUserRegistered] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [loadingState, setLoadingState] = useState(false);
 	const [checkbox, setCheckbox] = useState(false);
@@ -20,39 +25,82 @@ const Join: React.FC<Props> = ({ setUser }) => {
 		setTimeout(() => setError(null), 3000);
 	};
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUsername(e.target.value);
 	};
 
-	const validateName = (name: string | null) => {
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value);
+	};
+
+	const validateName = (name: string) => {
 		return name && name.length >= 3;
+	};
+
+	const validatePassword = (password: string) => {
+		return password && password.length >= 4;
 	};
 
 	const handleJoin = () => {
 		if (!validateName(username)) {
 			throwError("⛔ Name is too short.");
-		} else {
+			return;
+		}
+
+		if (checkbox || (passwordRequired && password.length > 0)) {
+			if (!validatePassword(password)) {
+				throwError("⛔ Password is too short.");
+				return;
+			}
+		}
+
+		if (checkbox) {
 			setLoadingState(true);
-			socket.emit("join", {
+			socket.emit("register", {
 				username,
+				password,
 			});
 		}
+
+		setPasswordRequired(false);
+		setLoadingState(true);
+		socket.emit("join", {
+			username,
+			password,
+		});
 	};
+
+	socket.on("userAuthenticated", () => {
+		setUserRegistered(true);
+	});
 
 	socket.on("authSuccessfull", () => {
 		setLoadingState(false);
 		setUser({
 			username,
-			registered: checkbox,
+			registered: userRegistered,
 		});
+		history.push("/chat");
 	});
 
-	socket.on("authUsernameTaken", () => {
+	socket.on("authUserExists", () => {
 		setLoadingState(false);
+		setPasswordRequired(true);
+		throwError("⛔ Username taken");
+		setCheckbox(false);
 	});
 
 	socket.on("authIncorrectPassword", () => {
 		setLoadingState(false);
+		setPassword("");
+		throwError("⛔ Password incorrect");
+	});
+
+	socket.on("error", ({ error }: { error: string }) => {
+		setLoadingState(false);
+		setUsername("");
+		setPassword("");
+		throwError(error);
 	});
 
 	return (
@@ -60,7 +108,16 @@ const Join: React.FC<Props> = ({ setUser }) => {
 			<div className="container">
 				<span>Chatter</span>
 				<div className="form">
-					<input type="text" placeholder="Name" value={username} onChange={e => handleInputChange(e)} maxLength={30} />
+					<input
+						type="text"
+						placeholder="Name"
+						value={username}
+						onChange={e => handleUsernameChange(e)}
+						maxLength={15}
+					/>
+					{(passwordRequired || checkbox) && (
+						<input type="password" placeholder="Password" value={password} onChange={e => handlePasswordChange(e)} />
+					)}
 					<div className="errors">{error}</div>
 					{!loadingState ? (
 						<div className="buttons">
