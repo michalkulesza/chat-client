@@ -12,9 +12,9 @@ interface Props {
 }
 
 const Messages: React.FC<Props> = ({ name, socket }) => {
-	const [messages, setMessages] = useState<
-		{ _id?: string; text: string; name: string; timestamp: string }[]
-	>([{ text: "", name: "admin", timestamp: "" }]);
+	const [messages, setMessages] = useState<{ _id?: string; text: string; name: string; timestamp: string }[]>([
+		{ text: "", name: "admin", timestamp: "" },
+	]);
 	const [componentLoading, setComponentLoading] = useState<boolean>(true);
 
 	useEffect(() => {
@@ -22,7 +22,7 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 			socket.on("getData", (roomName: string) => {
 				setComponentLoading(true);
 				const fetchData = async () => {
-					await fetch("https://chatter-xcxz.herokuapp.com/api/getmessages", {
+					await fetch("http://localhost:5001/api/getmessages", {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json;charset=utf-8",
@@ -34,23 +34,16 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 							setMessages(data.messages);
 							socket.emit("ready", name, roomName);
 							setComponentLoading(false);
+							console.log("HEY");
 						})
 						.catch(err => console.error(err));
 				};
 				fetchData();
 			});
 
-			socket.on(
-				"message",
-				(message: {
-					text: string;
-					name: string;
-					timestamp: string;
-					room: string;
-				}) => {
-					setMessages(prevMessages => [...prevMessages, message]);
-				}
-			);
+			socket.on("message", (message: { text: string; name: string; timestamp: string; room: string }) => {
+				setMessages(prevMessages => [...prevMessages, message]);
+			});
 		}
 	}, [socket, name]);
 
@@ -63,10 +56,7 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 			) : (
 				<ScrollToBottom className="messages-wrapper">
 					{messages.length === 0 ? (
-						<Message
-							type="admin"
-							content="There is nothing here yet..."
-						></Message>
+						<Message type="admin" content="There is nothing here yet..."></Message>
 					) : (
 						messages.map((message, i) => {
 							let type: string;
@@ -84,17 +74,10 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 									key={uuid()}
 									content={message.text}
 									type={type}
-									name={
-										i > 1 && messages[i - 1].name === message.name
-											? null
-											: message.name
-									}
+									name={i > 1 && messages[i - 1].name === message.name ? null : message.name}
 									timestamp={message.timestamp}
 									timestampHidden={
-										i + 1 < messages.length &&
-										messages[i + 1].timestamp === message.timestamp
-											? true
-											: false
+										i + 1 < messages.length && messages[i + 1].timestamp === message.timestamp ? true : false
 									}
 								></Message>
 							);

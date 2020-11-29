@@ -24,7 +24,7 @@
 			user-select: none;
 		}
 
-		form {
+		.form {
 			display: flex;
 			flex-direction: column;
 
@@ -47,7 +47,6 @@
 			}
 
 			.errors {
-				opacity: 0;
 				height: 10px;
 				font-size: 0.8rem;
 				font-weight: bold;
@@ -59,20 +58,26 @@
 				margin: 0 auto;
 			}
 
-			button {
-				@extend %border-radius;
-				border: none;
-				padding: 10px 40px;
-				outline: none;
-				cursor: pointer;
-				background-color: #fc5130;
-				color: $text-color;
-				font-weight: bold;
-				user-select: none;
-				@extend %transition;
+			.buttons {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5em;
 
-				&:hover {
-					background-color: #d94126;
+				.checkboxContainer {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					span {
+						font-size: 0.8em;
+						font-weight: 500;
+						margin: 0;
+					}
+
+					input {
+						margin: 0;
+						margin-right: 0.3em;
+					}
 				}
 			}
 		}
