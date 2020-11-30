@@ -3534,11 +3534,6 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-cryptr@^4.0.0:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/cryptr/-/cryptr-4.0.2.tgz#8a93b5ca7667d1a6131e396bab23a134ff1f5dc6"
-  integrity sha512-gLTcYjmLGe0Kk1yyacvjNKvSdkWBNNgG2tDnbRQP7yE559x/RJLo/I3WAmwCXNXf/fzMHCNp9vDv3PCopZDpXw==
-
 css-blank-pseudo@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/css-blank-pseudo/-/css-blank-pseudo-0.1.4.tgz#dfdefd3254bf8a82027993674ccf35483bfcb3c5"
@@ -10417,13 +10412,6 @@ socket.io-client@^2.3.0:
     parseuri "0.0.6"
     socket.io-parser "~3.3.0"
     to-array "0.1.4"
-
-socket.io-encrypt@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/socket.io-encrypt/-/socket.io-encrypt-0.2.1.tgz#0db9932f3222a83c8cf73e32fa91edb2c6904eab"
-  integrity sha512-YrHlLOiZE0S/7hgppK8KgIQ8sdkWrnSZpSFqBA5K95WSyaL983MT7r3lzzudjczS/PxZGieiMQS4GhAmatmQDg==
-  dependencies:
-    cryptr "^4.0.0"
 
 socket.io-parser@~3.3.0:
   version "3.3.1"
