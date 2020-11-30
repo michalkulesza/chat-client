@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import socket from "../../socketio";
 import { Button } from "../../components";
 import { User } from "../../App";
+import PATH from "../../constants/path";
 
 import "./Join.scss";
-import PATH from "../../constants/path";
 
 interface Props {
 	setUser: React.Dispatch<React.SetStateAction<User | null>>;
@@ -20,27 +19,6 @@ const Join: React.FC<Props> = ({ setUser }) => {
 	const [error, setError] = useState<string | null>(null);
 	const [loadingState, setLoadingState] = useState(false);
 	const [checkbox, setCheckbox] = useState(false);
-
-	useEffect(() => {
-		socket.on("authSuccessfull", ({ registered }: { registered: boolean }) => {
-			setLoadingState(false);
-			setUser({
-				username,
-				registered,
-			});
-			history.push("/chat");
-		});
-
-		socket.on("authUserExists", () => {});
-
-		socket.on("authIncorrectPassword", () => {});
-
-		return () => {
-			socket.off("authSuccessfull");
-			socket.off("authUserExists");
-			socket.off("authIncorrectPassword");
-		};
-	}, [history, setUser, username]);
 
 	const throwError = (error: string) => {
 		setError(error);
@@ -67,14 +45,8 @@ const Join: React.FC<Props> = ({ setUser }) => {
 	const handleUserExists = () => {
 		setLoadingState(false);
 		setPasswordRequired(true);
-		throwError("⛔ Username taken");
+		throwError("⛔ User exists, password required");
 		setCheckbox(false);
-	};
-
-	const handleIncorrectPassword = () => {
-		setLoadingState(false);
-		setPassword("");
-		throwError("⛔ Password incorrect");
 	};
 
 	const validateUsername = (name: string) => {
@@ -121,12 +93,9 @@ const Join: React.FC<Props> = ({ setUser }) => {
 			.then(res => {
 				const registered = password ? true : false;
 				res.status === 200 && handleAuthSuccessfull({ username, registered });
-				res.status === 401 && handleIncorrectPassword();
-				res.status === 422 && handleUserExists();
-
 				return;
 			})
-			.catch(err => throwError(err.message));
+			.catch(() => handleUserExists());
 	};
 
 	return (
