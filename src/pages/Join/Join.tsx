@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 import socket from "../../socketio";
 import { Button } from "../../components";
 import { User } from "../../App";
 
 import "./Join.scss";
+import PATH from "../../constants/path";
 
 interface Props {
 	setUser: React.Dispatch<React.SetStateAction<User | null>>;
@@ -29,31 +31,14 @@ const Join: React.FC<Props> = ({ setUser }) => {
 			history.push("/chat");
 		});
 
-		socket.on("authUserExists", () => {
-			setLoadingState(false);
-			setPasswordRequired(true);
-			throwError("⛔ Username taken");
-			setCheckbox(false);
-		});
+		socket.on("authUserExists", () => {});
 
-		socket.on("authIncorrectPassword", () => {
-			setLoadingState(false);
-			setPassword("");
-			throwError("⛔ Password incorrect");
-		});
-
-		socket.on("error", ({ error }: { error: string }) => {
-			setLoadingState(false);
-			setUsername("");
-			setPassword("");
-			throwError(error);
-		});
+		socket.on("authIncorrectPassword", () => {});
 
 		return () => {
 			socket.off("authSuccessfull");
 			socket.off("authUserExists");
 			socket.off("authIncorrectPassword");
-			socket.off("error");
 		};
 	}, [history, setUser, username]);
 
@@ -68,6 +53,28 @@ const Join: React.FC<Props> = ({ setUser }) => {
 
 	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
+	};
+
+	const handleAuthSuccessfull = ({ username, registered }: { username: string; registered: boolean }) => {
+		setLoadingState(false);
+		setUser({
+			username,
+			registered,
+		});
+		history.push("/chat");
+	};
+
+	const handleUserExists = () => {
+		setLoadingState(false);
+		setPasswordRequired(true);
+		throwError("⛔ Username taken");
+		setCheckbox(false);
+	};
+
+	const handleIncorrectPassword = () => {
+		setLoadingState(false);
+		setPassword("");
+		throwError("⛔ Password incorrect");
 	};
 
 	const validateUsername = (name: string) => {
@@ -93,18 +100,33 @@ const Join: React.FC<Props> = ({ setUser }) => {
 
 		if (checkbox) {
 			setLoadingState(true);
-			socket.emit("register", {
-				username,
-				password,
-			});
+			axios
+				.post(`${PATH}/auth/register`, {
+					username,
+					password,
+				})
+				.then(res => {
+					res.status === 200 && handleAuthSuccessfull({ username, registered: true });
+				})
+				.catch(err => throwError(err.message));
 		}
 
 		setPasswordRequired(false);
 		setLoadingState(true);
-		socket.emit("join", {
-			username,
-			password,
-		});
+		axios
+			.post(`${PATH}/auth/join`, {
+				username,
+				password,
+			})
+			.then(res => {
+				const registered = password ? true : false;
+				res.status === 200 && handleAuthSuccessfull({ username, registered });
+				res.status === 401 && handleIncorrectPassword();
+				res.status === 422 && handleUserExists();
+
+				return;
+			})
+			.catch(err => throwError(err.message));
 	};
 
 	return (

@@ -26,6 +26,7 @@ const Chat: React.FC<Props> = ({ user }) => {
 		socket.on("roomData", ({ name, users }: { name: string; users: { id: string; username: string }[] }) => {
 			setCurrentRoom(name);
 			setUsers(users);
+			console.log(users);
 		});
 
 		return () => {

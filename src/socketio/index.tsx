@@ -1,11 +1,9 @@
 import io from "socket.io-client";
 import encrypt from "socket.io-encrypt";
 
-const REMOTE = "https://chatter-xcxz.herokuapp.com/";
-const LOCAL = "http://localhost:5001";
+import PATH from "../constants/path";
 
-const ENDPOINT = process.env.PRODUCTION ? REMOTE : LOCAL;
-const socket = io(ENDPOINT);
+const socket = io(PATH);
 encrypt("someStrongSecret")(socket);
 
 export default socket;
