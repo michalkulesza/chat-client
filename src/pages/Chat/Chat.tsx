@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../../App";
-import socket from "../../socketio";
+import { socket, joinRoom } from "../../socketio";
+import PATH from "../../constants/path";
+
 import "./Chat.scss";
 
 // import Messages from "../../components/Messages/Messages";
@@ -14,29 +16,24 @@ interface Props {
 const INIT_ROOM = "main";
 
 const Chat: React.FC<Props> = ({ user }) => {
-	const [users, setUsers] = useState<{ id: string; username: string }[]>([]);
 	const [currentRoom, setCurrentRoom] = useState<string>(INIT_ROOM);
 	const [menuHidden, setMenuHidden] = useState<boolean>(false);
+	const [users, setUsers] = useState<{ id: string; username: string }[]>([]);
+	const [messages, setMessages] = useState<{}[]>([]);
 
 	useEffect(() => {
-		user && joinRoom(INIT_ROOM, user.username);
-	}, [user]);
+		if (user) {
+			joinRoom(INIT_ROOM, user.username);
 
-	useEffect(() => {
-		socket.on("roomData", ({ name, users }: { name: string; users: { id: string; username: string }[] }) => {
-			setCurrentRoom(name);
-			setUsers(users);
-			console.log(users);
-		});
+			socket.on("roomUserData", ({ name, users }: { name: string; users: { id: string; username: string }[] }) => {
+				setUsers(users);
+			});
+		}
 
 		return () => {
 			socket.off("roomData");
 		};
-	}, []);
-
-	const joinRoom = (room: string, user: string) => {
-		socket.emit("joinRoom", { room, user });
-	};
+	}, [user]);
 
 	// useEffect(() => {
 	// 	socket = io(ENDPOINT);
