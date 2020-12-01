@@ -1,21 +1,14 @@
 import React from "react";
 import "./User.scss";
 
-interface Props {
+type Props = {
 	name?: string;
 	currentUsername?: string;
 	type: "user" | "room";
-	handleChatListClick: (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>
-	) => void;
-}
+	handleChatListClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+};
 
-const User: React.FC<Props> = ({
-	name,
-	type,
-	handleChatListClick,
-	currentUsername,
-}) => {
+const User: React.FC<Props> = ({ name, type, handleChatListClick, currentUsername }) => {
 	return (
 		<div
 			className="user"
@@ -32,8 +25,7 @@ const User: React.FC<Props> = ({
 				)}
 			</div>
 			<div className="name">
-				{currentUsername === name ? <span>You</span> : name}{" "}
-				{type === "room" && "room"}
+				{currentUsername === name ? <span>You</span> : name} {type === "room" && "room"}
 			</div>
 		</div>
 	);

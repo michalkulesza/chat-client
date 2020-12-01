@@ -4,7 +4,7 @@ import IosRefresh from "react-ionicons/lib/IosRefresh";
 import uuid from "react-uuid";
 import { MessageType } from "../../pages/Chat/Chat";
 
-import Message from "./Message/Message";
+import Message from "../../components/Message/Message";
 import "./Messages.scss";
 
 interface Props {

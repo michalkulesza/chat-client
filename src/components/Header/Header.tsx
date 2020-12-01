@@ -1,18 +1,15 @@
 import React from "react";
 import "./Header.scss";
 
-interface Props {
+type Props = {
 	menuHidden: boolean;
 	setMenuHidden: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 const Header: React.FC<Props> = ({ menuHidden, setMenuHidden }) => {
 	return (
 		<div className="header">
-			<div
-				className="menu-icon-container"
-				onClick={() => setMenuHidden(!menuHidden)}
-			>
+			<div className="menu-icon-container" onClick={() => setMenuHidden(!menuHidden)}>
 				<div className={`menu-icon ${!menuHidden ? "menu-toggle" : ""}`}>
 					<span></span>
 				</div>

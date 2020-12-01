@@ -1,22 +1,17 @@
 import React from "react";
 import moment from "moment";
+
 import "./Message.scss";
 
-interface Props {
+type Props = {
 	content: string;
 	type: string;
 	name?: string | null;
 	timestamp?: string;
 	timestampHidden?: boolean;
-}
+};
 
-const Message: React.FC<Props> = ({
-	content,
-	type,
-	name,
-	timestamp,
-	timestampHidden,
-}) => {
+const Message: React.FC<Props> = ({ content, type, name, timestamp, timestampHidden }) => {
 	const time = moment(timestamp).format("HH:mm");
 
 	const showMessageTime = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

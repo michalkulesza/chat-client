@@ -4,16 +4,13 @@ import { socket, joinRoom } from "../../socketio";
 
 import "./Chat.scss";
 
-import Messages from "../../components/Messages/Messages";
-import Input from "../../components/Input/Input";
-import UsersList from "../../components/UsersList/UsersList";
+import { MessagesContainer, UsersListContainer, InputContainer } from "../../containers";
 import Header from "../../components/Header/Header";
 
+export type MessageType = { _id?: string; text: string; name: string; timestamp: string };
 type Props = {
 	user: User;
 };
-
-export type MessageType = { _id?: string; text: string; name: string; timestamp: string };
 
 const INIT_ROOM = "main";
 
@@ -66,12 +63,12 @@ const Chat: React.FC<Props> = ({ user }) => {
 	return (
 		<div className="chat">
 			<div className={`left ${menuHidden ? "menu-toggle" : ""}`}>
-				<UsersList users={users} handleChatListClick={handleChatListClick} currentUsername={"test"} />
+				<UsersListContainer users={users} handleChatListClick={handleChatListClick} currentUsername={"test"} />
 			</div>
 			<div className={`right ${menuHidden ? "menu-toggle" : ""}`}>
 				<Header menuHidden={menuHidden} setMenuHidden={setMenuHidden} />
-				<Messages username={username} messages={messages} />
-				<Input sendMessage={sendMessage} />
+				<MessagesContainer username={username} messages={messages} />
+				<InputContainer sendMessage={sendMessage} />
 			</div>
 		</div>
 	);

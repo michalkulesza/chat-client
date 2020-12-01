@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import uuid from "react-uuid";
 import "./UsersList.scss";
 
-import Search from "./Search/Search";
-import User from "./User/User";
+import Search from "../../components/Search/Search";
+import User from "../../components/User/User";
 
 interface Props {
 	users: { id: string; username: string }[];

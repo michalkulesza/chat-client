@@ -3,10 +3,10 @@ import "./Search.scss";
 
 import MdSearch from "react-ionicons/lib/MdSearch";
 
-interface Props {
+type Props = {
 	users: { id: string; username: string }[];
 	setSortedUsers: React.Dispatch<React.SetStateAction<{ id: string; username: string }[]>>;
-}
+};
 
 const Search: React.FC<Props> = ({ users, setSortedUsers }) => {
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
