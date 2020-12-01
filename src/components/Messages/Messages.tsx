@@ -1,51 +1,23 @@
 import React, { useEffect, useState } from "react";
-import "./Messages.scss";
 import ScrollToBottom from "react-scroll-to-bottom";
 import IosRefresh from "react-ionicons/lib/IosRefresh";
 import uuid from "react-uuid";
+import { MessageType } from "../../pages/Chat/Chat";
 
 import Message from "./Message/Message";
+import "./Messages.scss";
 
 interface Props {
-	name: string;
-	socket: SocketIOClient.Socket;
+	username: string | null;
+	messages: MessageType[];
 }
 
-const Messages: React.FC<Props> = ({ name, socket }) => {
-	const [messages, setMessages] = useState<{ _id?: string; text: string; name: string; timestamp: string }[]>([
-		{ text: "", name: "admin", timestamp: "" },
-	]);
+const Messages: React.FC<Props> = ({ username, messages }) => {
 	const [componentLoading, setComponentLoading] = useState<boolean>(true);
 
 	useEffect(() => {
-		if (socket) {
-			socket.on("getData", (roomName: string) => {
-				setComponentLoading(true);
-				const fetchData = async () => {
-					await fetch("http://localhost:5001/api/getmessages", {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json;charset=utf-8",
-						},
-						body: JSON.stringify({ roomName }),
-					})
-						.then(res => res.json())
-						.then(data => {
-							setMessages(data.messages);
-							socket.emit("ready", name, roomName);
-							setComponentLoading(false);
-							console.log("HEY");
-						})
-						.catch(err => console.error(err));
-				};
-				fetchData();
-			});
-
-			socket.on("message", (message: { text: string; name: string; timestamp: string; room: string }) => {
-				setMessages(prevMessages => [...prevMessages, message]);
-			});
-		}
-	}, [socket, name]);
+		messages && setComponentLoading(false);
+	}, [messages]);
 
 	return (
 		<div className="messages">
@@ -63,7 +35,7 @@ const Messages: React.FC<Props> = ({ name, socket }) => {
 
 							if (message.name === "admin") {
 								type = "admin";
-							} else if (message.name === name) {
+							} else if (message.name === username) {
 								type = "user";
 							} else {
 								type = "partner";

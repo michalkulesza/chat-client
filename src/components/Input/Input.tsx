@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./Input.scss";
 
-interface Props {
+type Props = {
 	sendMessage: (message: string) => void;
-}
+};
 
 const Input: React.FC<Props> = ({ sendMessage }) => {
 	const [message, setMessage] = useState("");

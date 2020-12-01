@@ -1,85 +1,67 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../../App";
 import { socket, joinRoom } from "../../socketio";
-import PATH from "../../constants/path";
 
 import "./Chat.scss";
 
-// import Messages from "../../components/Messages/Messages";
-// import Input from "../../components/Input/Input";
+import Messages from "../../components/Messages/Messages";
+import Input from "../../components/Input/Input";
 import UsersList from "../../components/UsersList/UsersList";
 import Header from "../../components/Header/Header";
 
-interface Props {
+type Props = {
 	user: User;
-}
+};
+
+export type MessageType = { _id?: string; text: string; name: string; timestamp: string };
+
 const INIT_ROOM = "main";
 
 const Chat: React.FC<Props> = ({ user }) => {
-	const [currentRoom, setCurrentRoom] = useState<string>(INIT_ROOM);
+	const [currentRoom, setCurrentRoom] = useState<string | null>(null);
 	const [menuHidden, setMenuHidden] = useState<boolean>(false);
+	const [username, setUsername] = useState<string | null>(null);
 	const [users, setUsers] = useState<{ id: string; username: string }[]>([]);
-	const [messages, setMessages] = useState<{}[]>([]);
+	const [messages, setMessages] = useState<MessageType[]>([]);
 
 	useEffect(() => {
 		if (user) {
 			joinRoom(INIT_ROOM, user.username);
-
-			socket.on("roomUserData", ({ name, users }: { name: string; users: { id: string; username: string }[] }) => {
-				setUsers(users);
-			});
 		}
-
-		return () => {
-			socket.off("roomData");
-		};
 	}, [user]);
 
-	// useEffect(() => {
-	// 	socket = io(ENDPOINT);
-	// 	socket.emit("initJoin", { name, initRoom }, async (error: any) => {
-	// 		if (error) {
-	// 			setIsUsernameTaken(true);
-	// 			history.push("/");
-	// 		}
-	// 	});
+	useEffect(() => {
+		socket.on("roomUserData", ({ name, users }: { name: string; users: { id: string; username: string }[] }) => {
+			setUsers(users);
+			setCurrentRoom(name);
+		});
 
-	// 	setIsUsernameTaken(false);
-	// 	socket.emit("readyForInitData", initRoom);
+		socket.on("roomChatData", (data: MessageType[]) => {
+			setMessages(data);
+		});
 
-	// 	return () => {
-	// 		socket.emit("disconnect");
-	// 		socket.off("");
-	// 	};
-	// }, [name, history, setIsUsernameTaken]);
+		socket.on("message", (message: MessageType) => {
+			setMessages([...messages, message]);
+		});
 
-	// useEffect(() => {
-	// 	socket.on("roomData", (roomData: { users: object[] }) => {
-	// 		setUsers(roomData.users);
-	// 	});
-	// }, []);
+		setUsername(user.username);
 
-	const handleChatListClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-		// let partnersName = e.currentTarget.getAttribute("data-user");
-		// let roomName = [name, partnersName].sort().join().replace(",", "");
-		// if (partnersName === "Main" && currentRoom !== partnersName) {
-		// 	setCurrentRoom("main");
-		// 	socket.emit("leaveChat");
-		// 	socket.emit("joinChat", { roomName: partnersName });
-		// }
-		// if (partnersName !== name && partnersName !== "Main" && currentRoom !== roomName) {
-		// 	socket.emit("leaveChat");
-		// 	setCurrentRoom(roomName);
-		// 	socket.emit("joinChat", { roomName, partnersName });
-		// }
+		return () => {
+			socket.off("roomUserData");
+			socket.off("roomChatData");
+			socket.off("message");
+		};
+	}, [messages, user.username]);
+
+	const handleChatListClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {};
+
+	const sendMessage = (message: string) => {
+		console.log("senMessage");
+		const trimmedMessage = message.trim();
+		if (trimmedMessage !== "") {
+			socket.emit("message", { text: trimmedMessage, name: username, room: currentRoom });
+		}
 	};
-
-	// const sendMessage = (message: string) => {
-	// 	const trimmedMessage = message.trim();
-	// 	if (trimmedMessage !== "") {
-	// 		socket.emit("sendMessage", trimmedMessage, name, currentRoom, () => {});
-	// 	}
-	// };
 
 	return (
 		<div className="chat">
@@ -88,8 +70,8 @@ const Chat: React.FC<Props> = ({ user }) => {
 			</div>
 			<div className={`right ${menuHidden ? "menu-toggle" : ""}`}>
 				<Header menuHidden={menuHidden} setMenuHidden={setMenuHidden} />
-				{/* <Messages name={name} socket={socket} /> */}
-				{/* <Input sendMessage={sendMessage} /> */}
+				<Messages username={username} messages={messages} />
+				<Input sendMessage={sendMessage} />
 			</div>
 		</div>
 	);

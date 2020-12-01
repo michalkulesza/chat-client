@@ -21,7 +21,6 @@ const UsersList: React.FC<Props> = ({ users, handleChatListClick, currentUsernam
 				<User name="Main" type="room" handleChatListClick={handleChatListClick}></User>
 				{sortedUsers.length !== 0 ? (
 					sortedUsers.map(user => {
-						console.log(user);
 						return (
 							<User
 								key={uuid()}
