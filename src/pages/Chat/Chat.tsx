@@ -47,6 +47,7 @@ const Chat: React.FC<Props> = ({ user }) => {
 			socket.off("roomUserData");
 			socket.off("roomChatData");
 			socket.off("message");
+			socket.emit("disconnect");
 		};
 	}, [messages, user.username]);
 
@@ -63,10 +64,10 @@ const Chat: React.FC<Props> = ({ user }) => {
 	return (
 		<div className="chat">
 			<div className={`left ${menuHidden ? "menu-toggle" : ""}`}>
-				<UsersListContainer users={users} handleChatListClick={handleChatListClick} currentUsername={"test"} />
+				<UsersListContainer users={users} handleChatListClick={handleChatListClick} currentUsername={user.username} />
 			</div>
 			<div className={`right ${menuHidden ? "menu-toggle" : ""}`}>
-				<Header menuHidden={menuHidden} setMenuHidden={setMenuHidden} />
+				<Header menuHidden={menuHidden} setMenuHidden={setMenuHidden} currentRoom={currentRoom} />
 				<MessagesContainer username={username} messages={messages} />
 				<InputContainer sendMessage={sendMessage} />
 			</div>

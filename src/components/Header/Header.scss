@@ -79,4 +79,13 @@
 			fill: $text-color-disabled;
 		}
 	}
+
+	.chat-title {
+		font-weight: 600;
+		color: $text-color;
+		display: flex;
+		align-items: center;
+		margin-left: 1em;
+		margin-top: 2px;
+	}
 }

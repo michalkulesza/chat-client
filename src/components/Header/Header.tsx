@@ -4,9 +4,10 @@ import "./Header.scss";
 type Props = {
 	menuHidden: boolean;
 	setMenuHidden: React.Dispatch<React.SetStateAction<boolean>>;
+	currentRoom: string | null;
 };
 
-const Header: React.FC<Props> = ({ menuHidden, setMenuHidden }) => {
+const Header: React.FC<Props> = ({ menuHidden, setMenuHidden, currentRoom }) => {
 	return (
 		<div className="header">
 			<div className="menu-icon-container" onClick={() => setMenuHidden(!menuHidden)}>
@@ -14,7 +15,7 @@ const Header: React.FC<Props> = ({ menuHidden, setMenuHidden }) => {
 					<span></span>
 				</div>
 			</div>
-			<div className="chat-title"></div>
+			<div className="chat-title">{currentRoom && `${currentRoom[0].toUpperCase() + currentRoom.slice(1)} room`}</div>
 		</div>
 	);
 };

@@ -9,7 +9,7 @@ type Props = {
 };
 
 const User: React.FC<Props> = ({ name, type, handleChatListClick, currentUsername }) => {
-	return (
+	return currentUsername !== name ? (
 		<div
 			className="user"
 			data-user={name}
@@ -28,7 +28,7 @@ const User: React.FC<Props> = ({ name, type, handleChatListClick, currentUsernam
 				{currentUsername === name ? <span>You</span> : name} {type === "room" && "room"}
 			</div>
 		</div>
-	);
+	) : null;
 };
 
 export default User;

@@ -19,7 +19,7 @@ const UsersList: React.FC<Props> = ({ users, handleChatListClick, currentUsernam
 			<Search users={users} setSortedUsers={setSortedUsers} />
 			<div className="usersContainer">
 				<User name="Main" type="room" handleChatListClick={handleChatListClick}></User>
-				{sortedUsers.length !== 0 ? (
+				{sortedUsers.length > 1 ? (
 					sortedUsers.map(user => {
 						return (
 							<User
