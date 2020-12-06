@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import uuid from "react-uuid";
 import "./UsersList.scss";
 
 import Search from "../../components/Search/Search";
@@ -18,13 +17,13 @@ const UsersList: React.FC<Props> = ({ users, handleChatListClick, currentUsernam
 		<div className="usersList">
 			<Search users={users} setSortedUsers={setSortedUsers} />
 			<div className="usersContainer">
-				<User name="Main" type="room" handleChatListClick={handleChatListClick}></User>
+				<User user={{ id: "0", username: "Main" }} type="room" handleChatListClick={handleChatListClick}></User>
 				{sortedUsers.length > 1 ? (
 					sortedUsers.map(user => {
 						return (
 							<User
-								key={uuid()}
-								name={user.username}
+								key={user.id}
+								user={user}
 								type="user"
 								handleChatListClick={handleChatListClick}
 								currentUsername={currentUsername}
