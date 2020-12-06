@@ -10,10 +10,13 @@
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-ionicons": "^3.1.4",
+		"react-redux": "^7.2.2",
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "3.4.1",
 		"react-scroll-to-bottom": "^2.0.0",
 		"react-uuid": "^1.0.2",
+		"redux": "^4.0.5",
+		"redux-thunk": "^2.3.0",
 		"socket.io-client": "2.3.1"
 	},
 	"scripts": {
@@ -41,6 +44,7 @@
 		"@testing-library/jest-dom": "^5.8.0",
 		"@testing-library/react": "^10.0.4",
 		"@testing-library/user-event": "^10.3.5",
+		"@types/react-redux": "^7.1.11",
 		"@types/react-router-dom": "^5.1.5",
 		"@types/socket.io-client": "^1.4.33",
 		"node-sass": "^4.14.1",
